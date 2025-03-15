@@ -4,6 +4,13 @@ import { useState } from "react";
 function App() {
   const [rows, setRows] = useState([]);
 
+  const [row, setRow] = useState({
+    nome: "",
+    categoria: "",
+    data: "",
+    valor: "",
+  });
+
   console.log(rows);
 
   useEffect(() => {
@@ -34,29 +41,102 @@ function App() {
       });
   };
 
+  const submitRow = (event) => {
+    event.preventDefault();
+
+    const url =
+      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(row),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        getRows([...rows, data]);
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <>
       <h1>Budget Management</h1>
 
       <table>
-        <tr>
-          <th>Nome</th>
-          <th>Categoria</th>
-          <th>Valor</th>
-          <th>Data</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Valor</th>
+            <th>Data</th>
+          </tr>
+        </thead>
 
-        {rows.length !== 0
-          ? rows.map((row, key) => (
+        <tbody>
+          {rows.length !== 0 ? (
+            rows.map((row, key) => (
               <tr key={key}>
-                <th>{row.nome}</th>
-                <th>{row.categoria}</th>
-                <th>{row.valor}</th>
-                <th>{row.data}</th>
+                <td>{row.nome}</td>
+                <td>{row.categoria}</td>
+                <td>{row.valor}</td>
+                <td>{row.data}</td>
               </tr>
             ))
-          : ""}
+          ) : (
+            <></>
+          )}
+        </tbody>
       </table>
+
+      <form>
+        <label htmlFor="nome">Nome:</label>
+        <input
+          value={row.nome}
+          type="text"
+          id="nome"
+          name="nome"
+          onChange={(e) => setRow({ ...row, nome: e.target.value })}
+        />
+        <br />
+        <br />
+        <label htmlFor="categoria">Categoria:</label>
+        <input
+          value={row.categoria}
+          type="text"
+          id="categoria"
+          name="categoria"
+          onChange={(e) => setRow({ ...row, categoria: e.target.value })}
+        />
+        <br />
+        <br />
+        <label htmlFor="valor">Valor:</label>
+        <input
+          value={row.valor}
+          type="number"
+          id="valor"
+          name="valor"
+          onChange={(e) => setRow({ ...row, valor: e.target.value })}
+        />
+        <br />
+        <br />
+        <label htmlFor="data">Data:</label>
+        <input
+          value={row.data}
+          type="date"
+          id="data"
+          name="data"
+          onChange={(e) => setRow({ ...row, data: e.target.value })}
+        />
+        <br />
+        <br />
+        <button onClick={submitRow}>Submit</button>
+      </form>
     </>
   );
 }
