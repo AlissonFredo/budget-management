@@ -75,6 +75,7 @@ function App() {
             <th>Categoria</th>
             <th>Valor</th>
             <th>Data</th>
+            <th>Ações</th>
           </tr>
         </thead>
 
@@ -86,6 +87,9 @@ function App() {
                 <td>{row.categoria}</td>
                 <td>{row.valor}</td>
                 <td>{row.data}</td>
+                <td>
+                  <button>Remover</button>
+                </td>
               </tr>
             ))
           ) : (
