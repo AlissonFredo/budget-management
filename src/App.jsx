@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [rows, setRows] = useState([]);
@@ -44,6 +45,8 @@ function App() {
   const submitRow = (event) => {
     event.preventDefault();
 
+    const rowRequest = { ...row, id: uuidv4() };
+
     const url =
       "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
 
@@ -52,11 +55,39 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(row),
+      body: JSON.stringify(rowRequest),
     })
       .then((response) => response.json())
       .then((data) => {
         getRows([...rows, data]);
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const removeRow = (id) => {
+    const query_params = new URLSearchParams({
+      limit: 1,
+      query_type: "and",
+      id: id,
+    });
+    const url =
+      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1?" +
+      query_params;
+
+    fetch(url, {
+      method: "DELETE",
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        const rowsNew = rows.filter((value) => {
+          return value.id != id;
+        });
+
+        setRows(rowsNew);
+
         console.log("Success:", data);
       })
       .catch((error) => {
@@ -71,10 +102,12 @@ function App() {
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Nome</th>
             <th>Categoria</th>
             <th>Valor</th>
             <th>Data</th>
+            <th>Ações</th>
           </tr>
         </thead>
 
@@ -82,10 +115,14 @@ function App() {
           {rows.length !== 0 ? (
             rows.map((row, key) => (
               <tr key={key}>
+                <td>{row.id ?? ""}</td>
                 <td>{row.nome}</td>
                 <td>{row.categoria}</td>
                 <td>{row.valor}</td>
                 <td>{row.data}</td>
+                <td>
+                  <button onClick={() => removeRow(row.id)}>Remover</button>
+                </td>
               </tr>
             ))
           ) : (
