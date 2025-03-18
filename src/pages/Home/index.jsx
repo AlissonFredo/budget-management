@@ -3,22 +3,22 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 function Home() {
-  const [rows, setRows] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
-  const [row, setRow] = useState({
+  const [transaction, setTransaction] = useState({
     nome: "",
     categoria: "",
     data: "",
     valor: "",
   });
 
-  console.log(rows);
+  console.log(transactions);
 
   useEffect(() => {
-    getRows();
+    getTransactions();
   }, []);
 
-  const getRows = () => {
+  const getTransactions = () => {
     const query_params = new URLSearchParams({
       limit: 10,
       // query_type: "and",
@@ -35,17 +35,15 @@ function Home() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        setRows(data);
+        setTransactions(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
-  const submitRow = (event) => {
+  const submitTransaction = (event) => {
     event.preventDefault();
-
-    const rowRequest = { ...row, id: uuidv4() };
 
     const url =
       "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
@@ -55,11 +53,14 @@ function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(rowRequest),
+      body: JSON.stringify({
+        ...transaction,
+        id: uuidv4(),
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
-        setRows([...rows, data]);
+        setTransactions([...transactions, data]);
         console.log("Success:", data);
       })
       .catch((error) => {
@@ -67,7 +68,7 @@ function Home() {
       });
   };
 
-  const removeRow = (id) => {
+  const removeTransaction = (id) => {
     const query_params = new URLSearchParams({
       limit: 1,
       query_type: "and",
@@ -82,11 +83,11 @@ function Home() {
     })
       .then((response) => response.text())
       .then((data) => {
-        const rowsNew = rows.filter((value) => {
+        const filteredTransactions = transactions.filter((value) => {
           return value.id != id;
         });
 
-        setRows(rowsNew);
+        setTransactions(filteredTransactions);
 
         console.log("Success:", data);
       })
@@ -112,16 +113,18 @@ function Home() {
         </thead>
 
         <tbody>
-          {rows.length !== 0 ? (
-            rows.map((row, key) => (
+          {transactions.length !== 0 ? (
+            transactions.map((transaction, key) => (
               <tr key={key}>
-                <td>{row.id ?? ""}</td>
-                <td>{row.nome}</td>
-                <td>{row.categoria}</td>
-                <td>{row.valor}</td>
-                <td>{row.data}</td>
+                <td>{transaction.id ?? ""}</td>
+                <td>{transaction.nome}</td>
+                <td>{transaction.categoria}</td>
+                <td>{transaction.valor}</td>
+                <td>{transaction.data}</td>
                 <td>
-                  <button onClick={() => removeRow(row.id)}>Remover</button>
+                  <button onClick={() => removeTransaction(transaction.id)}>
+                    Remover
+                  </button>
                 </td>
               </tr>
             ))
@@ -134,45 +137,53 @@ function Home() {
       <form>
         <label htmlFor="nome">Nome:</label>
         <input
-          value={row.nome}
+          value={transaction.nome}
           type="text"
           id="nome"
           name="nome"
-          onChange={(e) => setRow({ ...row, nome: e.target.value })}
+          onChange={(e) =>
+            setTransaction({ ...transaction, nome: e.target.value })
+          }
         />
         <br />
         <br />
         <label htmlFor="categoria">Categoria:</label>
         <input
-          value={row.categoria}
+          value={transaction.categoria}
           type="text"
           id="categoria"
           name="categoria"
-          onChange={(e) => setRow({ ...row, categoria: e.target.value })}
+          onChange={(e) =>
+            setTransaction({ ...transaction, categoria: e.target.value })
+          }
         />
         <br />
         <br />
         <label htmlFor="valor">Valor:</label>
         <input
-          value={row.valor}
+          value={transaction.valor}
           type="number"
           id="valor"
           name="valor"
-          onChange={(e) => setRow({ ...row, valor: e.target.value })}
+          onChange={(e) =>
+            setTransaction({ ...transaction, valor: e.target.value })
+          }
         />
         <br />
         <br />
         <label htmlFor="data">Data:</label>
         <input
-          value={row.data}
+          value={transaction.data}
           type="date"
           id="data"
           name="data"
-          onChange={(e) => setRow({ ...row, data: e.target.value })}
+          onChange={(e) =>
+            setTransaction({ ...transaction, data: e.target.value })
+          }
         />
         <br />
         <br />
-        <button onClick={submitRow}>Submit</button>
+        <button onClick={submitTransaction}>Submit</button>
       </form>
     </>
   );
