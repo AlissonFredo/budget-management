@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-function App() {
+function Home() {
   const [rows, setRows] = useState([]);
 
   const [row, setRow] = useState({
@@ -178,4 +178,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
