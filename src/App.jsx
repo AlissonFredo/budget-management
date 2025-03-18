@@ -59,7 +59,7 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        getRows([...rows, data]);
+        setRows([...rows, data]);
         console.log("Success:", data);
       })
       .catch((error) => {
