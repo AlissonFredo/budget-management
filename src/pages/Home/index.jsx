@@ -98,7 +98,9 @@ function Home() {
 
   return (
     <>
-      <h1>Budget Management</h1>
+      <header className="text-start p-4 bg-blue-400">
+        <h1 className="text-white text-lg font-semibold">Budget Management</h1>
+      </header>
 
       <table>
         <thead>
