@@ -3,8 +3,7 @@ function Container({ children }) {
     <section
       className="
         min-h-screen 
-        bg-violet-500
-        p-5
+        bg-slate-200
       "
     >
       {children}
