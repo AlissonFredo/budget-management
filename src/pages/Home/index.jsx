@@ -125,53 +125,44 @@ function Home() {
             </div>
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Data</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-
-            <tbody>
+          <div>
+            <ul>
               {transactions.length !== 0 ? (
                 transactions.map((transaction, key) => (
-                  <tr key={key}>
-                    <td>{transaction.id ?? ""}</td>
-                    <td>{transaction.nome}</td>
-                    <td>{transaction.categoria}</td>
-                    <td>{transaction.valor}</td>
-                    <td>{transaction.data}</td>
-                    <td>
-                      <button onClick={() => removeTransaction(transaction.id)}>
-                        Remover
-                      </button>
-                    </td>
-                  </tr>
+                  <li key={key} className="flex">
+                    <div className="w-15 flex justify-center items-center">
+                      <div className="size-15 rounded-full bg-gray-400"></div>
+                    </div>
+                    <div className="w-1/1 flex justify-between pl-2 py-2">
+                      <div>
+                        <h1 className="text-lg font-semibold">
+                          {transaction.nome}
+                        </h1>
+                        <h1 className="text-lg font-semibold">
+                          {transaction.categoria}
+                        </h1>
+                      </div>
+                      <div className="grid grid-cols-2">
+                        <div className="w-20 flex items-center mr-3">
+                          <h1 className="text-lg font-semibold">
+                            R$ {transaction.valor}
+                          </h1>
+                        </div>
+                        <div className="flex justify-end items-center">
+                          <button
+                            onClick={() => removeTransaction(transaction.id)}
+                            className="text-start p-3 bg-red-400 text-white text-sm font-semibold cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
                 ))
               ) : (
                 <></>
               )}
-            </tbody>
-          </table>
-
-          <div>
-            <ul>
-              <li className="flex">
-                <div className="w-1/6">
-                  <div className="size-12 rounded-full bg-radial from-pink-400 from-40% to-fuchsia-700"></div>
-                </div>
-                <div className="w-5/6">
-                  <div>
-                    <div>Nome</div>
-                  </div>
-                  <div>Valor</div>
-                </div>
-              </li>
             </ul>
           </div>
         </section>
