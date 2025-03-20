@@ -1,18 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import ModalAddTransaction from "../../components/ModalAddTransaction";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
-
-  const [transaction, setTransaction] = useState({
-    nome: "",
-    categoria: "",
-    data: "",
-    valor: "",
-  });
-
-  console.log(transactions);
 
   useEffect(() => {
     getTransactions();
@@ -36,32 +27,6 @@ function Home() {
       .then((response) => response.json())
       .then((data) => {
         setTransactions(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  const submitTransaction = (event) => {
-    event.preventDefault();
-
-    const url =
-      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...transaction,
-        id: uuidv4(),
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTransactions([...transactions, data]);
-        console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -119,114 +84,55 @@ function Home() {
               <h2 className="text-lg font-semibold">Transactions</h2>
             </div>
             <div className="text-end">
-              <button className="text-start p-3 bg-blue-400 text-white text-lg font-semibold cursor-pointer">
-                Add Transaction
-              </button>
+              <ModalAddTransaction
+                handleNewTransaction={(newTransaction) =>
+                  setTransactions([...transactions, newTransaction])
+                }
+              />
             </div>
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Data</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-
-            <tbody>
+          <div>
+            <ul>
               {transactions.length !== 0 ? (
                 transactions.map((transaction, key) => (
-                  <tr key={key}>
-                    <td>{transaction.id ?? ""}</td>
-                    <td>{transaction.nome}</td>
-                    <td>{transaction.categoria}</td>
-                    <td>{transaction.valor}</td>
-                    <td>{transaction.data}</td>
-                    <td>
-                      <button onClick={() => removeTransaction(transaction.id)}>
-                        Remover
-                      </button>
-                    </td>
-                  </tr>
+                  <li key={key} className="flex">
+                    <div className="w-15 flex justify-center items-center">
+                      <div className="size-15 rounded-full bg-gray-400"></div>
+                    </div>
+                    <div className="w-1/1 flex justify-between pl-2 py-2">
+                      <div>
+                        <h1 className="text-lg font-semibold">
+                          {transaction.nome}
+                        </h1>
+                        <h1 className="text-lg font-semibold">
+                          {transaction.categoria}
+                        </h1>
+                      </div>
+                      <div className="grid grid-cols-2">
+                        <div className="w-20 flex items-center mr-3">
+                          <h1 className="text-lg font-semibold">
+                            R$ {transaction.valor}
+                          </h1>
+                        </div>
+                        <div className="flex justify-end items-center">
+                          <button
+                            onClick={() => removeTransaction(transaction.id)}
+                            className="text-start p-3 bg-red-400 text-white text-sm font-semibold cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
                 ))
               ) : (
                 <></>
               )}
-            </tbody>
-          </table>
-
-          <div>
-            <ul>
-              <li className="flex">
-                <div className="w-1/6">
-                  <div className="size-12 rounded-full bg-radial from-pink-400 from-40% to-fuchsia-700"></div>
-                </div>
-                <div className="w-5/6">
-                  <div>
-                    <div>Nome</div>
-                  </div>
-                  <div>Valor</div>
-                </div>
-              </li>
             </ul>
           </div>
         </section>
-
-        <form>
-          <label htmlFor="nome">Nome:</label>
-          <input
-            value={transaction.nome}
-            type="text"
-            id="nome"
-            name="nome"
-            onChange={(e) =>
-              setTransaction({ ...transaction, nome: e.target.value })
-            }
-          />
-          <br />
-          <br />
-          <label htmlFor="categoria">Categoria:</label>
-          <input
-            value={transaction.categoria}
-            type="text"
-            id="categoria"
-            name="categoria"
-            onChange={(e) =>
-              setTransaction({ ...transaction, categoria: e.target.value })
-            }
-          />
-          <br />
-          <br />
-          <label htmlFor="valor">Valor:</label>
-          <input
-            value={transaction.valor}
-            type="number"
-            id="valor"
-            name="valor"
-            onChange={(e) =>
-              setTransaction({ ...transaction, valor: e.target.value })
-            }
-          />
-          <br />
-          <br />
-          <label htmlFor="data">Data:</label>
-          <input
-            value={transaction.data}
-            type="date"
-            id="data"
-            name="data"
-            onChange={(e) =>
-              setTransaction({ ...transaction, data: e.target.value })
-            }
-          />
-          <br />
-          <br />
-          <button onClick={submitTransaction}>Submit</button>
-        </form>
       </section>
     </>
   );
