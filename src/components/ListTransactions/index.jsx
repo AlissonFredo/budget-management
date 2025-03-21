@@ -1,34 +1,41 @@
-function ListTransactions({ transactions = [], handleRemoveTransaction }) {
-  const removeTransaction = (id) => {
-    const query_params = new URLSearchParams({
-      limit: 1,
-      query_type: "and",
-      id: id,
-    });
-    const url =
-      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1?" +
-      query_params;
+function ListTransactions({ transactions, handleRemoveTransaction }) {
+  console.log(transactions && transactions.length !== 0);
 
-    fetch(url, {
-      method: "DELETE",
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        const filteredTransactions = transactions.filter((value) => {
-          return value.id != id;
-        });
-
-        handleRemoveTransaction(filteredTransactions);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  const removeTransaction = async (id) => {
+    try {
+      const query_params = new URLSearchParams({
+        limit: 1,
+        query_type: "and",
+        id: id,
       });
+
+      const url =
+        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
+        query_params;
+
+      const response = await fetch(url, { method: "DELETE" });
+
+      const data = await response.json();
+
+      if (data === 500) {
+        // throw an inconsistency warning toast
+        console.log("Response remove transactions", data);
+      }
+
+      const filteredTransactions = transactions.filter((value) => {
+        return value.id != id;
+      });
+
+      handleRemoveTransaction(filteredTransactions);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
     <div>
       <ul>
-        {transactions.length !== 0 ? (
+        {transactions && transactions.length !== 0 ? (
           transactions.map((transaction, key) => (
             <li key={key} className="flex">
               <div className="w-15 flex justify-center items-center">

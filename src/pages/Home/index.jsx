@@ -10,28 +10,31 @@ function Home() {
     getTransactions();
   }, []);
 
-  const getTransactions = () => {
-    const query_params = new URLSearchParams({
-      limit: 10,
-      // query_type: "and",
-      // nome: "example value",
-      // categoria: "example value",
-      // data: "example value",
-      // valor: "example value",
-    });
-
-    const url =
-      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1?" +
-      query_params;
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setTransactions(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+  const getTransactions = async () => {
+    try {
+      const query_params = new URLSearchParams({
+        limit: 10,
+        // query_type: "and",
+        // nome: "example value",
+        // categoria: "example value",
+        // data: "example value",
+        // valor: "example value",
       });
+
+      const url =
+        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
+        query_params;
+
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Response to fetch transactions", data);
+
+      if (Array.isArray(data)) {
+        setTransactions(data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (

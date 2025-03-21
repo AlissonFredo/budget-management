@@ -12,31 +12,33 @@ function ModalAddTransaction({ handleNewTransaction }) {
     valor: "",
   });
 
-  const submitTransaction = (event) => {
-    event.preventDefault();
+  const submitTransaction = async (event) => {
+    try {
+      event.preventDefault();
 
-    const url =
-      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
+      const url =
+        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...transaction,
-        id: uuidv4(),
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        handleNewTransaction(data);
-
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...transaction,
+          id: uuidv4(),
+        }),
       });
+
+      const data = await response.json();
+      console.log("Response create transactions", data);
+
+      if (data != 500) {
+        handleNewTransaction(data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
