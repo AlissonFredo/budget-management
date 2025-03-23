@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
+import Input from "../Input";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,14 +71,15 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   Add Transaction
                 </h1>
               </header>
+
               <div className="p-4">
                 <form>
-                  <label htmlFor="nome">Nome:</label>
-                  <input
+                  <Input
+                    id="description"
+                    label="Description:"
                     value={transaction.description}
                     type="text"
-                    id="nome"
-                    name="nome"
+                    name="description"
                     onChange={(e) =>
                       setTransaction({
                         ...transaction,
@@ -85,14 +87,13 @@ function ModalAddTransaction({ handleNewTransaction }) {
                       })
                     }
                   />
-                  <br />
-                  <br />
-                  <label htmlFor="categoria">Categoria:</label>
-                  <input
+
+                  <Input
+                    id="category"
+                    label="Category:"
                     value={transaction.category}
                     type="text"
-                    id="categoria"
-                    name="categoria"
+                    name="category"
                     onChange={(e) =>
                       setTransaction({
                         ...transaction,
@@ -100,32 +101,34 @@ function ModalAddTransaction({ handleNewTransaction }) {
                       })
                     }
                   />
-                  <br />
-                  <br />
-                  <label htmlFor="valor">Valor:</label>
-                  <input
+
+                  <Input
+                    id="amount"
+                    label="Amount:"
                     value={transaction.amount}
                     type="number"
-                    id="valor"
-                    name="valor"
+                    name="amount"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, amount: e.target.value })
+                      setTransaction({
+                        ...transaction,
+                        amount: e.target.value,
+                      })
                     }
                   />
-                  <br />
-                  <br />
-                  <label htmlFor="data">Data:</label>
-                  <input
+
+                  <Input
+                    id="date"
+                    label="Date:"
                     value={transaction.date}
                     type="date"
-                    id="data"
-                    name="data"
+                    name="date"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, date: e.target.value })
+                      setTransaction({
+                        ...transaction,
+                        date: e.target.value,
+                      })
                     }
                   />
-                  <br />
-                  <br />
                 </form>
 
                 <div className="text-end">
