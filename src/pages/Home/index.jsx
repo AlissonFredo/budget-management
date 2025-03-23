@@ -37,11 +37,32 @@ function Home() {
     }
   };
 
+  const monthName = new Date()
+    .toLocaleString("en-US", { month: "long" })
+    .toLowerCase();
+  const [currentMonth, setCurrentMonth] = useState(monthName);
+
+  const months = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
   return (
     <>
       <header className="text-start p-4 bg-blue-400">
         <h1 className="text-white text-lg font-semibold">Budget Management</h1>
       </header>
+
       <section className="px-5">
         <section className="grid grid-cols-2 gap-4 mt-4">
           <div className="p-4 bg-white">
@@ -67,6 +88,30 @@ function Home() {
               />
             </div>
           </div>
+
+          <section className="mt-4 overflow-x-scroll ">
+            <div className="flex py-4 justify-start">
+              {months.map((month, key) => (
+                <div
+                  key={key}
+                  className={`
+                    ${key == 0 ? "mr-2" : "mx-2"}
+                    lg:mx-auto 
+                    p-2 
+                    ${currentMonth == month ? "bg-blue-400" : "bg-blue-300"}
+                    text-white 
+                    text-sm 
+                    min-w-20 
+                    text-center
+                    capitalize
+                  `}
+                  onClick={() => setCurrentMonth(month)}
+                >
+                  {month}
+                </div>
+              ))}
+            </div>
+          </section>
 
           <ListTransactions
             transactions={transactions}
