@@ -6,10 +6,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [transaction, setTransaction] = useState({
-    nome: "",
-    categoria: "",
-    data: "",
-    valor: "",
+    description: "",
+    category: "",
+    date: "",
+    amount: "",
+    type: "",
   });
 
   const submitTransaction = async (event) => {
@@ -19,14 +20,24 @@ function ModalAddTransaction({ handleNewTransaction }) {
       const url =
         "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
 
+      let [year, month, day] = transaction.date.split("-");
+      const date = new Date(year, month - 1, day);
+      month = date.toLocaleString("en-US", { month: "long" }).toLowerCase();
+
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...transaction,
-          id: uuidv4(),
+          key: uuidv4(),
+          description: transaction.description,
+          category: transaction.category,
+          amount: transaction.amount,
+          day: day,
+          month: month,
+          year: year,
+          type: transaction.type,
         }),
       });
 
@@ -63,26 +74,29 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 <form>
                   <label htmlFor="nome">Nome:</label>
                   <input
-                    value={transaction.nome}
+                    value={transaction.description}
                     type="text"
                     id="nome"
                     name="nome"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, nome: e.target.value })
+                      setTransaction({
+                        ...transaction,
+                        description: e.target.value,
+                      })
                     }
                   />
                   <br />
                   <br />
                   <label htmlFor="categoria">Categoria:</label>
                   <input
-                    value={transaction.categoria}
+                    value={transaction.category}
                     type="text"
                     id="categoria"
                     name="categoria"
                     onChange={(e) =>
                       setTransaction({
                         ...transaction,
-                        categoria: e.target.value,
+                        category: e.target.value,
                       })
                     }
                   />
@@ -90,24 +104,24 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   <br />
                   <label htmlFor="valor">Valor:</label>
                   <input
-                    value={transaction.valor}
+                    value={transaction.amount}
                     type="number"
                     id="valor"
                     name="valor"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, valor: e.target.value })
+                      setTransaction({ ...transaction, amount: e.target.value })
                     }
                   />
                   <br />
                   <br />
                   <label htmlFor="data">Data:</label>
                   <input
-                    value={transaction.data}
+                    value={transaction.date}
                     type="date"
                     id="data"
                     name="data"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, data: e.target.value })
+                      setTransaction({ ...transaction, date: e.target.value })
                     }
                   />
                   <br />

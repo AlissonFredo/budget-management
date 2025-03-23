@@ -40,6 +40,7 @@ function Home() {
   const monthName = new Date()
     .toLocaleString("en-US", { month: "long" })
     .toLowerCase();
+
   const [currentMonth, setCurrentMonth] = useState(monthName);
 
   const months = [

@@ -6,7 +6,7 @@ function ListTransactions({ transactions, handleRemoveTransaction }) {
       const query_params = new URLSearchParams({
         limit: 1,
         query_type: "and",
-        id: id,
+        key: id,
       });
 
       const url =
@@ -23,7 +23,7 @@ function ListTransactions({ transactions, handleRemoveTransaction }) {
       }
 
       const filteredTransactions = transactions.filter((value) => {
-        return value.id != id;
+        return value.key != id;
       });
 
       handleRemoveTransaction(filteredTransactions);
@@ -43,20 +43,20 @@ function ListTransactions({ transactions, handleRemoveTransaction }) {
               </div>
               <div className="w-1/1 flex justify-between pl-2 py-2">
                 <div>
-                  <h1 className="text-lg font-semibold">{transaction.nome}</h1>
+                  <h1 className="text-lg font-semibold">{transaction.description}</h1>
                   <h1 className="text-lg font-semibold">
-                    {transaction.categoria}
+                    {transaction.category}
                   </h1>
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="w-20 flex items-center mr-3">
                     <h1 className="text-lg font-semibold">
-                      R$ {transaction.valor}
+                      R$ {transaction.amount}
                     </h1>
                   </div>
                   <div className="flex justify-end items-center">
                     <button
-                      onClick={() => removeTransaction(transaction.id)}
+                      onClick={() => removeTransaction(transaction.key)}
                       className="text-start p-3 bg-red-400 text-white text-sm font-semibold cursor-pointer"
                     >
                       Delete
