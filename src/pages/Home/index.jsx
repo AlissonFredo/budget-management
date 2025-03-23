@@ -6,20 +6,40 @@ import ListTransactions from "../../components/ListTransactions";
 function Home() {
   const [transactions, setTransactions] = useState([]);
 
+  const monthName = new Date()
+    .toLocaleString("en-US", { month: "long" })
+    .toLowerCase();
+
+  const [currentMonth, setCurrentMonth] = useState(monthName);
+
+  const [queryParams, setQueryParams] = useState({
+    limit: 99,
+    query_type: "and",
+    month: currentMonth,
+  });
+
+  const months = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+
   useEffect(() => {
     getTransactions();
-  }, []);
+  }, [queryParams]);
 
   const getTransactions = async () => {
     try {
-      const query_params = new URLSearchParams({
-        limit: 10,
-        // query_type: "and",
-        // nome: "example value",
-        // categoria: "example value",
-        // data: "example value",
-        // valor: "example value",
-      });
+      const query_params = new URLSearchParams(queryParams);
 
       const url =
         "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
@@ -36,27 +56,6 @@ function Home() {
       console.error("Error:", error);
     }
   };
-
-  const monthName = new Date()
-    .toLocaleString("en-US", { month: "long" })
-    .toLowerCase();
-
-  const [currentMonth, setCurrentMonth] = useState(monthName);
-
-  const months = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
 
   return (
     <>
@@ -92,10 +91,11 @@ function Home() {
 
           <section className="mt-4 overflow-x-scroll ">
             <div className="flex py-4 justify-start">
-              {months.map((month, key) => (
-                <div
-                  key={key}
-                  className={`
+              {months.map((month, key) => {
+                return (
+                  <div
+                    key={key}
+                    className={`
                     ${key == 0 ? "mr-2" : "mx-2"}
                     lg:mx-auto 
                     p-2 
@@ -106,11 +106,15 @@ function Home() {
                     text-center
                     capitalize
                   `}
-                  onClick={() => setCurrentMonth(month)}
-                >
-                  {month}
-                </div>
-              ))}
+                    onClick={() => {
+                      setCurrentMonth(month);
+                      setQueryParams({ ...queryParams, month: month });
+                    }}
+                  >
+                    {month}
+                  </div>
+                );
+              })}
             </div>
           </section>
 
