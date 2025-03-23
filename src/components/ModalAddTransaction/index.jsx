@@ -1,42 +1,56 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
+import Input from "../Input";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [transaction, setTransaction] = useState({
-    nome: "",
-    categoria: "",
-    data: "",
-    valor: "",
+    description: "",
+    category: "",
+    date: "",
+    amount: "",
+    type: "",
   });
 
-  const submitTransaction = (event) => {
-    event.preventDefault();
+  const submitTransaction = async (event) => {
+    try {
+      event.preventDefault();
 
-    const url =
-      "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/P%C3%A1gina1";
+      const url =
+        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...transaction,
-        id: uuidv4(),
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        handleNewTransaction(data);
+      let [year, month, day] = transaction.date.split("-");
+      const date = new Date(year, month - 1, day);
+      month = date.toLocaleString("en-US", { month: "long" }).toLowerCase();
 
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: uuidv4(),
+          description: transaction.description,
+          category: transaction.category,
+          amount: transaction.amount,
+          day: day,
+          month: month,
+          year: year,
+          type: transaction.type,
+        }),
       });
+
+      const data = await response.json();
+      console.log("Response create transactions", data);
+
+      if (data != 500) {
+        handleNewTransaction(data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -57,59 +71,64 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   Add Transaction
                 </h1>
               </header>
+
               <div className="p-4">
                 <form>
-                  <label htmlFor="nome">Nome:</label>
-                  <input
-                    value={transaction.nome}
+                  <Input
+                    id="description"
+                    label="Description:"
+                    value={transaction.description}
                     type="text"
-                    id="nome"
-                    name="nome"
-                    onChange={(e) =>
-                      setTransaction({ ...transaction, nome: e.target.value })
-                    }
-                  />
-                  <br />
-                  <br />
-                  <label htmlFor="categoria">Categoria:</label>
-                  <input
-                    value={transaction.categoria}
-                    type="text"
-                    id="categoria"
-                    name="categoria"
+                    name="description"
                     onChange={(e) =>
                       setTransaction({
                         ...transaction,
-                        categoria: e.target.value,
+                        description: e.target.value,
                       })
                     }
                   />
-                  <br />
-                  <br />
-                  <label htmlFor="valor">Valor:</label>
-                  <input
-                    value={transaction.valor}
+
+                  <Input
+                    id="category"
+                    label="Category:"
+                    value={transaction.category}
+                    type="text"
+                    name="category"
+                    onChange={(e) =>
+                      setTransaction({
+                        ...transaction,
+                        category: e.target.value,
+                      })
+                    }
+                  />
+
+                  <Input
+                    id="amount"
+                    label="Amount:"
+                    value={transaction.amount}
                     type="number"
-                    id="valor"
-                    name="valor"
+                    name="amount"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, valor: e.target.value })
+                      setTransaction({
+                        ...transaction,
+                        amount: e.target.value,
+                      })
                     }
                   />
-                  <br />
-                  <br />
-                  <label htmlFor="data">Data:</label>
-                  <input
-                    value={transaction.data}
+
+                  <Input
+                    id="date"
+                    label="Date:"
+                    value={transaction.date}
                     type="date"
-                    id="data"
-                    name="data"
+                    name="date"
                     onChange={(e) =>
-                      setTransaction({ ...transaction, data: e.target.value })
+                      setTransaction({
+                        ...transaction,
+                        date: e.target.value,
+                      })
                     }
                   />
-                  <br />
-                  <br />
                 </form>
 
                 <div className="text-end">
