@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import Input from "../Input";
+import Select from "../Select";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -116,29 +117,21 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     }
                   />
 
-                  <div className="grid mb-2">
-                    <label
-                      className="mb-1 text-sm font-semibold text-gray-500"
-                      htmlFor="type"
-                    >
-                      Tipo
-                    </label>
-                    <select
-                      className="bg-gray-100 rounded-md p-2 text-sm font-semibold text-gray-500"
-                      name="type"
-                      id="type"
-                      value={transaction.type}
-                      onChange={(e) =>
-                        setTransaction({
-                          ...transaction,
-                          type: e.target.value,
-                        })
-                      }
-                    >
-                      <option value="incoming">Entrada</option>
-                      <option value="outgoing">Despesas</option>
-                    </select>
-                  </div>
+                  <Select
+                    label="Tipo:"
+                    id="type"
+                    value={transaction.type}
+                    values={[
+                      { value: "incoming", description: "Entrada" },
+                      { value: "outgoing", description: "Despesas" },
+                    ]}
+                    onChange={(e) =>
+                      setTransaction({
+                        ...transaction,
+                        type: e.target.value,
+                      })
+                    }
+                  />
 
                   <Input
                     id="date"
