@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import Input from "../Input";
+import Select from "../Select";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
     category: "",
     date: "",
     amount: "",
-    type: "",
+    type: "incoming",
   });
 
   const submitTransaction = async (event) => {
@@ -112,6 +113,22 @@ function ModalAddTransaction({ handleNewTransaction }) {
                       setTransaction({
                         ...transaction,
                         amount: e.target.value,
+                      })
+                    }
+                  />
+
+                  <Select
+                    label="Tipo:"
+                    id="type"
+                    value={transaction.type}
+                    values={[
+                      { value: "incoming", description: "Entrada" },
+                      { value: "outgoing", description: "Despesas" },
+                    ]}
+                    onChange={(e) =>
+                      setTransaction({
+                        ...transaction,
+                        type: e.target.value,
                       })
                     }
                   />
