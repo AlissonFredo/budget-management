@@ -11,7 +11,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
     category: "",
     date: "",
     amount: "",
-    type: "",
+    type: "incoming",
   });
 
   const submitTransaction = async (event) => {
@@ -115,6 +115,30 @@ function ModalAddTransaction({ handleNewTransaction }) {
                       })
                     }
                   />
+
+                  <div className="grid mb-2">
+                    <label
+                      className="mb-1 text-sm font-semibold text-gray-500"
+                      htmlFor="type"
+                    >
+                      Tipo
+                    </label>
+                    <select
+                      className="bg-gray-100 rounded-md p-2 text-sm font-semibold text-gray-500"
+                      name="type"
+                      id="type"
+                      value={transaction.type}
+                      onChange={(e) =>
+                        setTransaction({
+                          ...transaction,
+                          type: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="incoming">Entrada</option>
+                      <option value="outgoing">Despesas</option>
+                    </select>
+                  </div>
 
                   <Input
                     id="date"
