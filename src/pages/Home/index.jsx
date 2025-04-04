@@ -38,8 +38,22 @@ function Home() {
   };
 
   const calculateOutgoing = () => {
-    const incomings = transactions.filter(
+    const outgoings = transactions.filter(
       (transaction) => transaction?.type == "outgoing"
+    );
+
+    let total = 0;
+
+    outgoings.forEach((outgoing) => {
+      total += outgoing.amount;
+    });
+
+    return total;
+  };
+
+  const calculateIncoming = () => {
+    const incomings = transactions.filter(
+      (transaction) => transaction?.type == "incoming"
     );
 
     let total = 0;
@@ -61,7 +75,7 @@ function Home() {
         <section className="grid grid-cols-2 gap-4 mt-4">
           <div className="p-4 bg-white">
             <h3 className="text-lg font-semibold">Incoming</h3>
-            <p>R$ 1.000</p>
+            <p>R$ {calculateIncoming()}</p>
           </div>
           <div className="p-4 bg-white">
             <h3 className="text-lg font-semibold">Outgoing</h3>
