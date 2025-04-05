@@ -65,6 +65,13 @@ function Home() {
     return total;
   };
 
+  const calculeBalance = () => {
+    const incoming = calculateIncoming();
+    const outgoing = calculateOutgoing();
+
+    return incoming - outgoing;
+  };
+
   return (
     <>
       <header className="text-start p-4 bg-blue-400">
@@ -72,7 +79,7 @@ function Home() {
       </header>
 
       <section className="px-5">
-        <section className="grid grid-cols-2 gap-4 mt-4">
+        <section className="grid grid-cols-3 gap-4 mt-4">
           <div className="p-4 bg-white">
             <h3 className="text-lg font-semibold">Incoming</h3>
             <p>R$ {calculateIncoming()}</p>
@@ -80,6 +87,10 @@ function Home() {
           <div className="p-4 bg-white">
             <h3 className="text-lg font-semibold">Outgoing</h3>
             <p>R$ {calculateOutgoing()}</p>
+          </div>
+          <div className="p-4 bg-white">
+            <h3 className="text-lg font-semibold">Balance</h3>
+            <p>R$ {calculeBalance()}</p>
           </div>
         </section>
 
