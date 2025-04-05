@@ -3,6 +3,21 @@ import { useState } from "react";
 import ModalAddTransaction from "../../components/ModalAddTransaction";
 import ListTransactions from "../../components/ListTransactions";
 import Filter from "../../components/Filter";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  TrendingDown,
+  TrendingUp,
+  Wallet,
+} from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -75,7 +90,9 @@ function Home() {
   return (
     <main className="container mx-auto py-8 px-4 md:px-6">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Budget Management</h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-2">
+          Budget Management
+        </h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Track your income and expenses with our intuitive budget management
           dashboard
@@ -83,19 +100,86 @@ function Home() {
       </header>
 
       <section className="">
-        <section className="grid grid-cols-3 gap-4 mt-4">
-          <div className="p-4 bg-white">
-            <h3 className="text-lg font-semibold">Incoming</h3>
-            <p>R$ {calculateIncoming()}</p>
-          </div>
-          <div className="p-4 bg-white">
-            <h3 className="text-lg font-semibold">Outgoing</h3>
-            <p>R$ {calculateOutgoing()}</p>
-          </div>
-          <div className="p-4 bg-white">
-            <h3 className="text-lg font-semibold">Balance</h3>
-            <p>R$ {calculeBalance()}</p>
-          </div>
+        <section className="grid gap-6 md:grid-cols-3">
+          <Card className="overflow-hidden border-t-4 border-t-emerald-500">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg font-medium">
+                  Total Income
+                </CardTitle>
+                <div className="rounded-full bg-emerald-100 p-2 dark:bg-emerald-900/20">
+                  <ArrowUpCircle className="h-5 w-5 text-emerald-500" />
+                </div>
+              </div>
+              <CardDescription className="flex items-center text-sm text-muted-foreground">
+                <TrendingUp className="mr-1 h-3 w-3" /> Monthly earnings
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-emerald-600">
+                ${calculateIncoming().toFixed(2)}
+              </div>
+              <div className="mt-4 h-1 w-full rounded-full bg-emerald-100 dark:bg-emerald-900/20">
+                <div
+                  className="h-full rounded-full bg-emerald-500"
+                  style={{ width: "100%" }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="overflow-hidden border-t-4 border-t-rose-500">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg font-medium">
+                  Total Expenses
+                </CardTitle>
+                <div className="rounded-full bg-rose-100 p-2 dark:bg-rose-900/20">
+                  <ArrowDownCircle className="h-5 w-5 text-rose-500" />
+                </div>
+              </div>
+              <CardDescription className="flex items-center text-sm text-muted-foreground">
+                <TrendingDown className="mr-1 h-3 w-3" /> Monthly spending
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-rose-600">
+                ${calculateOutgoing().toFixed(2)}
+              </div>
+              <div className="mt-4 flex items-center">
+                <Progress value={10} className="h-2" />
+                <span className="ml-2 text-sm text-muted-foreground">
+                  {10}%
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className={`overflow-hidden border-t-4 border-t-sky-500`}>
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg font-medium">
+                  Current Balance
+                </CardTitle>
+                <div
+                  className={`rounded-full p-2 bg-sky-100 dark:bg-sky-900/20`}
+                >
+                  <Wallet className={`h-5 w-5 text-sky-500`} />
+                </div>
+              </div>
+              <CardDescription className="flex items-center text-sm text-muted-foreground">
+                Deficit this period
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className={`text-3xl font-bold text-sky-600`}>
+                ${Math.abs(calculeBalance()).toFixed(2)}
+              </div>
+              <div className="mt-4 text-sm text-muted-foreground">
+                You're spending 50% more than your income
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         <section className="mt-4 bg-white p-4">
