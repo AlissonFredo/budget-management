@@ -73,12 +73,16 @@ function Home() {
   };
 
   return (
-    <>
-      <header className="text-start p-4 bg-blue-400">
-        <h1 className="text-white text-lg font-semibold">Budget Management</h1>
+    <main className="container mx-auto py-8 px-4 md:px-6">
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold tracking-tight mb-2">Budget Management</h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Track your income and expenses with our intuitive budget management
+          dashboard
+        </p>
       </header>
 
-      <section className="px-5">
+      <section className="">
         <section className="grid grid-cols-3 gap-4 mt-4">
           <div className="p-4 bg-white">
             <h3 className="text-lg font-semibold">Incoming</h3>
@@ -122,7 +126,7 @@ function Home() {
           />
         </section>
       </section>
-    </>
+    </main>
   );
 }
 
