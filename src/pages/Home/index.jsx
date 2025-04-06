@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import Container from "@/components/Container";
+import Header from "@/components/Header";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -83,15 +84,7 @@ function Home() {
 
   return (
     <Container>
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">
-          Budget Management
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Track your income and expenses with our intuitive budget management
-          dashboard
-        </p>
-      </header>
+      <Header />
 
       <section className="grid gap-6 md:grid-cols-3">
         <Card className="overflow-hidden border-t-4 border-t-emerald-500">
