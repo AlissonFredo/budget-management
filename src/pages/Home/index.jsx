@@ -65,7 +65,20 @@ function Home() {
   const spendingPercentage =
     incoming > 0 ? Math.min(Math.round((outgoing / incoming) * 100), 100) : 0;
 
-  console.log((outgoing / incoming) * 100);
+  const getIncomeBalanceMessage = () => {
+    if (currentBalance >= 0) {
+      const percentage =
+        currentBalance != 0 ? Math.round((currentBalance / incoming) * 100) : 0;
+      return `You're saving ${percentage}% of your income`;
+    }
+
+    if (incoming == 0) {
+      return "Your spending exceeds 100%... out of nowhere";
+    }
+
+    const percentage = Math.round((Math.abs(currentBalance) / incoming) * 100);
+    return `You're spending ${percentage}% more than your income`;
+  };
 
   return (
     <main className="container mx-auto py-8 px-4 md:px-6">
@@ -134,26 +147,44 @@ function Home() {
           </CardContent>
         </Card>
 
-        <Card className={`overflow-hidden border-t-4 border-t-sky-500`}>
+        <Card
+          className={`overflow-hidden border-t-4 ${
+            currentBalance >= 0 ? "border-t-sky-500" : "border-t-amber-500"
+          }`}
+        >
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-lg font-medium">
                 Current Balance
               </CardTitle>
-              <div className={`rounded-full p-2 bg-sky-100 dark:bg-sky-900/20`}>
-                <Wallet className={`h-5 w-5 text-sky-500`} />
+              <div
+                className={`rounded-full p-2 ${
+                  currentBalance >= 0
+                    ? "bg-sky-100 dark:bg-sky-900/20"
+                    : "bg-amber-100 dark:bg-amber-900/20"
+                }`}
+              >
+                <Wallet
+                  className={`h-5 w-5 ${
+                    currentBalance >= 0 ? "text-sky-500" : "text-amber-500"
+                  }`}
+                />
               </div>
             </div>
             <CardDescription className="flex items-center text-sm text-muted-foreground">
-              Deficit this period
+              {currentBalance >= 0 ? "Savings" : "Deficit"} this period
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-sky-600`}>
+            <div
+              className={`text-3xl font-bold ${
+                currentBalance >= 0 ? "text-sky-600" : "text-amber-600"
+              }`}
+            >
               ${Math.abs(currentBalance).toFixed(2)}
             </div>
             <div className="mt-4 text-sm text-muted-foreground">
-              You're spending 50% more than your income
+              {getIncomeBalanceMessage()}
             </div>
           </CardContent>
         </Card>
