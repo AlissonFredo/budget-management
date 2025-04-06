@@ -62,6 +62,11 @@ function Home() {
 
   const currentBalance = incoming - outgoing;
 
+  const spendingPercentage =
+    incoming > 0 ? Math.min(Math.round((outgoing / incoming) * 100), 100) : 0;
+
+  console.log((outgoing / incoming) * 100);
+
   return (
     <main className="container mx-auto py-8 px-4 md:px-6">
       <header className="text-center mb-8">
@@ -121,8 +126,10 @@ function Home() {
               ${outgoing.toFixed(2)}
             </div>
             <div className="mt-4 flex items-center">
-              <Progress value={10} className="h-2" />
-              <span className="ml-2 text-sm text-muted-foreground">{10}%</span>
+              <Progress value={spendingPercentage} className="h-2" />
+              <span className="ml-2 text-sm text-muted-foreground">
+                {spendingPercentage}%
+              </span>
             </div>
           </CardContent>
         </Card>
