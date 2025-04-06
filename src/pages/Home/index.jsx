@@ -18,6 +18,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import Container from "@/components/Container";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -81,7 +82,7 @@ function Home() {
   };
 
   return (
-    <main className="container mx-auto py-8 px-4 md:px-6">
+    <Container>
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight mb-2">
           Budget Management
@@ -219,7 +220,7 @@ function Home() {
           />
         </section>
       </section>
-    </main>
+    </Container>
   );
 }
 
