@@ -35,7 +35,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
           key: uuidv4(),
           description: transaction.description,
           category: transaction.category,
-          amount: transaction.amount,
+          amount: parseInt(transaction.amount, 10),
           day: day,
           month: month,
           year: year,
