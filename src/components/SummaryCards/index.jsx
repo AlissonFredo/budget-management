@@ -30,7 +30,7 @@ function SummaryCards({ incoming, outgoing }) {
   };
 
   return (
-    <section className="grid gap-6 md:grid-cols-3">
+    <section className="grid gap-6 md:grid-cols-3 mb-8">
       <Card className="overflow-hidden border-t-4 border-t-emerald-500">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
