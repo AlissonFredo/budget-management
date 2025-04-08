@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
 import Input from "../Input";
 import Select from "../Select";
+import { Button } from "../ui/button";
+import { PlusCircle } from "lucide-react";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,12 +58,13 @@ function ModalAddTransaction({ handleNewTransaction }) {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setIsOpen(true)}
-        className="text-start p-3 bg-blue-400 text-white text-lg font-semibold cursor-pointer"
+        className="flex items-center gap-2"
       >
+        <PlusCircle className="h-4 w-4" />
         Add Transaction
-      </button>
+      </Button>
 
       {isOpen &&
         createPortal(
