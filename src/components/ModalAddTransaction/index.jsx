@@ -92,12 +92,28 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     }
                   />
 
-                  <Input
-                    id="category"
+                  <Select
                     label="Category:"
+                    id="category"
                     value={transaction.category}
-                    type="text"
-                    name="category"
+                    values={[
+                      { value: -1, description: "Select category" },
+                      { value: "Salary", description: "Salary" },
+                      { value: "Freelance", description: "Freelance" },
+                      { value: "Investment", description: "Investment" },
+                      { value: "Housing", description: "Housing" },
+                      { value: "Food", description: "Food" },
+                      { value: "Utilities", description: "Utilities" },
+                      { value: "Dining", description: "Dining" },
+                      {
+                        value: "Transportation",
+                        description: "Transportation",
+                      },
+                      { value: "Entertainment", description: "Entertainment" },
+                      { value: "Shopping", description: "Shopping" },
+                      { value: "Health", description: "Health" },
+                      { value: "Other", description: "Other" },
+                    ]}
                     onChange={(e) =>
                       setTransaction({
                         ...transaction,
