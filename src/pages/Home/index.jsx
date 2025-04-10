@@ -6,6 +6,13 @@ import Filter from "../../components/Filter";
 import Container from "@/components/Container";
 import Header from "@/components/Header";
 import SummaryCards from "@/components/SummaryCards";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -68,13 +75,16 @@ function Home() {
           onSelectMonth={(month) => setSelectedMonth(month)}
         />
 
-        <section className="md:col-span-3">
-          <section className="bg-white p-4">
-            <div className="grid grid-cols-2 gap-4">
+        <Card className="md:col-span-3">
+          <CardHeader className="border-b">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
               <div>
-                <h2 className="text-lg font-semibold">Transactions</h2>
+                <CardTitle className="text-2xl">Transactions</CardTitle>
+                <CardDescription>
+                  {transactions.length} transactions found
+                </CardDescription>
               </div>
-              <div className="text-end">
+              <div className="flex items-center gap-4 mt-4 sm:mt-0">
                 <ModalAddTransaction
                   handleNewTransaction={(newTransaction) =>
                     setTransactions([...transactions, newTransaction])
@@ -82,15 +92,11 @@ function Home() {
                 />
               </div>
             </div>
-
-            <ListTransactions
-              transactions={transactions}
-              handleRemoveTransaction={(filteredTransactions) =>
-                setTransactions(filteredTransactions)
-              }
-            />
-          </section>
-        </section>
+          </CardHeader>
+          <CardContent>
+            <ListTransactions transactions={transactions} />
+          </CardContent>
+        </Card>
       </section>
     </Container>
   );

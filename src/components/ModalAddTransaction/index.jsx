@@ -1,8 +1,25 @@
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { v4 as uuidv4 } from "uuid";
-import Input from "../Input";
-import Select from "../Select";
+import { Button } from "../ui/button";
+import { CalendarIcon, PlusCircle } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +31,21 @@ function ModalAddTransaction({ handleNewTransaction }) {
     amount: "",
     type: "incoming",
   });
+
+  const categories = [
+    { value: "Salary", label: "Salary" },
+    { value: "Freelance", label: "Freelance" },
+    { value: "Investment", label: "Investment" },
+    { value: "Housing", label: "Housing" },
+    { value: "Food", label: "Food" },
+    { value: "Utilities", label: "Utilities" },
+    { value: "Dining", label: "Dining" },
+    { value: "Transportation", label: "Transportation" },
+    { value: "Entertainment", label: "Entertainment" },
+    { value: "Shopping", label: "Shopping" },
+    { value: "Health", label: "Health" },
+    { value: "Other", label: "Other" },
+  ];
 
   const submitTransaction = async (event) => {
     try {
@@ -56,118 +88,166 @@ function ModalAddTransaction({ handleNewTransaction }) {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setIsOpen(true)}
-        className="text-start p-3 bg-blue-400 text-white text-lg font-semibold cursor-pointer"
+        className="flex items-center gap-2"
       >
+        <PlusCircle className="h-4 w-4" />
         Add Transaction
-      </button>
+      </Button>
 
-      {isOpen &&
-        createPortal(
-          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-white shadow-lg w-100">
-              <header className="text-start p-2 bg-blue-400">
-                <h1 className="text-white text-md font-semibold">
-                  Add Transaction
-                </h1>
-              </header>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsOpen(open);
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-[500px]">
+          <div>
+            <DialogHeader>
+              <DialogTitle className="text-2xl">
+                Add New Transaction
+              </DialogTitle>
+              <DialogDescription>
+                Fill in the details below to add a new transaction to your
+                budget.
+              </DialogDescription>
+            </DialogHeader>
 
-              <div className="p-4">
-                <form>
-                  <Input
-                    id="description"
-                    label="Description:"
-                    value={transaction.description}
-                    type="text"
-                    name="description"
-                    onChange={(e) =>
-                      setTransaction({
-                        ...transaction,
-                        description: e.target.value,
-                      })
-                    }
-                  />
+            <form className="space-y-6 py-4">
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="description">Description</Label>
+                    <Input
+                      id="description"
+                      placeholder="Enter transaction description"
+                      value={transaction.description}
+                      onChange={(e) =>
+                        setTransaction({
+                          ...transaction,
+                          description: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
 
-                  <Input
-                    id="category"
-                    label="Category:"
-                    value={transaction.category}
-                    type="text"
-                    name="category"
-                    onChange={(e) =>
-                      setTransaction({
-                        ...transaction,
-                        category: e.target.value,
-                      })
-                    }
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
+                    <Select
+                      value={transaction.category}
+                      onValueChange={(e) =>
+                        setTransaction({
+                          ...transaction,
+                          category: e,
+                        })
+                      }
+                      required
+                    >
+                      <SelectTrigger id="category" className="w-full">
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            {cat.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                  <Input
-                    id="amount"
-                    label="Amount:"
-                    value={transaction.amount}
-                    type="number"
-                    name="amount"
-                    onChange={(e) =>
-                      setTransaction({
-                        ...transaction,
-                        amount: e.target.value,
-                      })
-                    }
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="amount">Amount</Label>
+                    <Input
+                      id="amount"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="0.00"
+                      value={transaction.amount}
+                      onChange={(e) =>
+                        setTransaction({
+                          ...transaction,
+                          amount: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
 
-                  <Select
-                    label="Tipo:"
-                    id="type"
-                    value={transaction.type}
-                    values={[
-                      { value: "incoming", description: "Entrada" },
-                      { value: "outgoing", description: "Despesas" },
-                    ]}
-                    onChange={(e) =>
-                      setTransaction({
-                        ...transaction,
-                        type: e.target.value,
-                      })
-                    }
-                  />
+                  <div className="space-y-2">
+                    <Label>Transaction Type</Label>
+                    <RadioGroup
+                      value={transaction.type}
+                      onValueChange={(e) =>
+                        setTransaction({
+                          ...transaction,
+                          type: e,
+                        })
+                      }
+                      className="flex space-x-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="incoming" id="incoming" />
+                        <Label
+                          htmlFor="incoming"
+                          className="font-normal cursor-pointer"
+                        >
+                          Incoming
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="outgoing" id="outgoing" />
+                        <Label
+                          htmlFor="outgoing"
+                          className="font-normal cursor-pointer"
+                        >
+                          Outgoing
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
 
-                  <Input
-                    id="date"
-                    label="Date:"
-                    value={transaction.date}
-                    type="date"
-                    name="date"
-                    onChange={(e) =>
-                      setTransaction({
-                        ...transaction,
-                        date: e.target.value,
-                      })
-                    }
-                  />
-                </form>
-
-                <div className="text-end">
-                  <button
-                    className="p-3 bg-blue-400 text-white text-sm font-semibold cursor-pointer mr-3"
-                    onClick={submitTransaction}
-                  >
-                    Submit
-                  </button>
-
-                  <button
-                    className="p-3 bg-gray-400 text-white text-sm font-semibold cursor-pointer"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Close
-                  </button>
+                  <div className="space-y-2">
+                    <Label htmlFor="date">Date</Label>
+                    <div className="relative">
+                      <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <input
+                        required
+                        type="date"
+                        id="date"
+                        value={transaction.date || ""}
+                        onChange={(e) =>
+                          setTransaction({
+                            ...transaction,
+                            date: e.target.value,
+                          })
+                        }
+                        className="w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>,
-          document.body
-        )}
+
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button onClick={submitTransaction}>Add Transaction</Button>
+              </DialogFooter>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
