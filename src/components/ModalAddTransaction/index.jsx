@@ -32,6 +32,14 @@ function ModalAddTransaction({ handleNewTransaction }) {
     type: "incoming",
   });
 
+  const [errors, setErrors] = useState({
+    description: false,
+    category: false,
+    date: false,
+    amount: false,
+    type: false,
+  });
+
   const categories = [
     { value: "Salary", label: "Salary" },
     { value: "Freelance", label: "Freelance" },
@@ -47,10 +55,28 @@ function ModalAddTransaction({ handleNewTransaction }) {
     { value: "Other", label: "Other" },
   ];
 
-  const submitTransaction = async (event) => {
-    try {
-      event.preventDefault();
+  const handleSubmitTransaction = (event) => {
+    event.preventDefault();
 
+    let tempo = {
+      description: transaction.description == "",
+      category: transaction.category == "",
+      date: transaction.date == "",
+      amount: transaction.amount == "",
+      type: transaction.type == "",
+    };
+
+    setErrors(tempo);
+
+    const hasEmptyFields = Object.values(tempo).some((value) => value === true);
+
+    if (!hasEmptyFields) {
+      submitTransaction();
+    }
+  };
+
+  const submitTransaction = async () => {
+    try {
       const url =
         "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
 
@@ -116,7 +142,10 @@ function ModalAddTransaction({ handleNewTransaction }) {
               </DialogDescription>
             </DialogHeader>
 
-            <form className="space-y-6 py-4">
+            <form
+              onSubmit={(event) => handleSubmitTransaction(event)}
+              className="space-y-6 py-4"
+            >
               <div className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
@@ -131,8 +160,12 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           description: e.target.value,
                         })
                       }
-                      required
                     />
+                    {errors.description && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -145,7 +178,6 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           category: e,
                         })
                       }
-                      required
                     >
                       <SelectTrigger id="category" className="w-full">
                         <SelectValue placeholder="Select category" />
@@ -158,6 +190,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         ))}
                       </SelectContent>
                     </Select>
+                    {errors.category && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -175,8 +212,12 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           amount: e.target.value,
                         })
                       }
-                      required
                     />
+                    {errors.amount && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -210,6 +251,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         </Label>
                       </div>
                     </RadioGroup>
+                    {errors.type && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -217,7 +263,6 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     <div className="relative">
                       <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <input
-                        required
                         type="date"
                         id="date"
                         value={transaction.date || ""}
@@ -230,6 +275,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         className="w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
                       />
                     </div>
+                    {errors.date && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -242,7 +292,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 >
                   Cancel
                 </Button>
-                <Button onClick={submitTransaction}>Add Transaction</Button>
+                <Button type="submit">Add Transaction</Button>
               </DialogFooter>
             </form>
           </div>
