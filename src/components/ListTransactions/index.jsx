@@ -6,11 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+import { ArrowDownCircle, ArrowUpCircle, Calendar } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
-function ListTransactions({ transactions, handleRemoveTransaction }) {
+function ListTransactions({
+  transactions,
+  handleRemoveTransaction,
+  isLoading,
+}) {
   const removeTransaction = async (id) => {
     try {
       const query_params = new URLSearchParams({
@@ -42,6 +46,18 @@ function ListTransactions({ transactions, handleRemoveTransaction }) {
     }
   };
 
+  if (isLoading) {
+    return <TransactionLoading />;
+  } else if (transactions.length === 0) {
+    return <TransactionsNotFaund />;
+  } else {
+    return <TableTransaction transactions={transactions} />;
+  }
+}
+
+export default ListTransactions;
+
+function TableTransaction({ transactions }) {
   const getCategoryColor = (category) => {
     const colors = {
       Salary:
@@ -127,4 +143,23 @@ function ListTransactions({ transactions, handleRemoveTransaction }) {
   );
 }
 
-export default ListTransactions;
+function TransactionsNotFaund() {
+  return (
+    <div className="flex flex-col items-center justify-center py-12 px-4">
+      <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 className="text-lg font-medium">No transactions found</h3>
+      <p className="text-sm text-muted-foreground text-center mt-1">
+        Try selecting a different month or adding new transactions.
+      </p>
+    </div>
+  );
+}
+
+function TransactionLoading() {
+  return (
+    <div className="flex justify-center items-center py-12 px-4 text-muted-foreground">
+      <div className="text-lg font-medium mr-2 w-4 h-4 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+      <span>Loading...</span>
+    </div>
+  );
+}

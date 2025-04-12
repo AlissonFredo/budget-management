@@ -328,7 +328,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? (
                     <div className="flex justify-center items-center">
-                      <div class="mr-2 w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <div className="mr-2 w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
                       <span>Loading...</span>
                     </div>
                   ) : (

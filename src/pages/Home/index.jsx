@@ -19,12 +19,16 @@ function Home() {
 
   const [selectedMonth, setSelectedMonth] = useState("all");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     getTransactions();
   }, [selectedMonth]);
 
   const getTransactions = async () => {
     try {
+      setIsLoading(true);
+
       let query = {
         limit: 999,
       };
@@ -50,6 +54,8 @@ function Home() {
       if (Array.isArray(data)) {
         setTransactions(data);
       }
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -94,7 +100,10 @@ function Home() {
             </div>
           </CardHeader>
           <CardContent>
-            <ListTransactions transactions={transactions} />
+            <ListTransactions
+              transactions={transactions}
+              isLoading={isLoading}
+            />
           </CardContent>
         </Card>
       </section>
