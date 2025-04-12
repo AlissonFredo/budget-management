@@ -6,58 +6,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDownCircle, ArrowUpCircle, Calendar } from "lucide-react";
+import { ArrowDownCircle, ArrowUpCircle, Calendar, Trash2 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "../ui/button";
 
 function ListTransactions({
   transactions,
   handleRemoveTransaction,
   isLoading,
 }) {
-  const removeTransaction = async (id) => {
-    try {
-      const query_params = new URLSearchParams({
-        limit: 1,
-        query_type: "and",
-        key: id,
-      });
-
-      const url =
-        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
-        query_params;
-
-      const response = await fetch(url, { method: "DELETE" });
-
-      const data = await response.json();
-
-      if (data === 500) {
-        // throw an inconsistency warning toast
-        console.log("Response remove transactions", data);
-      }
-
-      const filteredTransactions = transactions.filter((value) => {
-        return value.key != id;
-      });
-
-      handleRemoveTransaction(filteredTransactions);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   if (isLoading) {
     return <TransactionLoading />;
   } else if (transactions.length === 0) {
     return <TransactionsNotFaund />;
   } else {
-    return <TableTransaction transactions={transactions} />;
+    return (
+      <TableTransaction
+        transactions={transactions}
+        handleRemoveTransaction={handleRemoveTransaction}
+      />
+    );
   }
 }
 
 export default ListTransactions;
 
-function TableTransaction({ transactions }) {
+function TableTransaction({ transactions, handleRemoveTransaction }) {
   const getCategoryColor = (category) => {
     const colors = {
       Salary:
@@ -82,6 +57,34 @@ function TableTransaction({ transactions }) {
     );
   };
 
+  const removeTransaction = async (id) => {
+    try {
+      const query_params = new URLSearchParams({
+        limit: 1,
+        query_type: "and",
+        key: id,
+      });
+
+      const url =
+        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
+        query_params;
+
+      const response = await fetch(url, { method: "DELETE" });
+
+      if (response.status === 500) {
+        console.log("Response remove transactions", response);
+      }
+
+      const filteredTransactions = transactions.filter((value) => {
+        return value.key != id;
+      });
+
+      handleRemoveTransaction(filteredTransactions);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -91,6 +94,7 @@ function TableTransaction({ transactions }) {
             <TableHead>Date</TableHead>
             <TableHead>Category</TableHead>
             <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[80px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -134,6 +138,17 @@ function TableTransaction({ transactions }) {
               >
                 {transaction.type === "incoming" ? "+" : "-"}$
                 {transaction.amount.toFixed(2)}
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => removeTransaction(transaction.key)}
+                >
+                  <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+                  <span className="sr-only">Delete</span>
+                </Button>
               </TableCell>
             </TableRow>
           ))}

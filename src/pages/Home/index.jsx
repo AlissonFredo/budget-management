@@ -103,6 +103,9 @@ function Home() {
             <ListTransactions
               transactions={transactions}
               isLoading={isLoading}
+              handleRemoveTransaction={(filteredTransactions) =>
+                setTransactions(filteredTransactions)
+              }
             />
           </CardContent>
         </Card>
