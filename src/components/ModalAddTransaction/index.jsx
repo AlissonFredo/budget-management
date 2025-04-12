@@ -24,6 +24,8 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [transaction, setTransaction] = useState({
     description: "",
     category: "",
@@ -77,6 +79,8 @@ function ModalAddTransaction({ handleNewTransaction }) {
 
   const submitTransaction = async () => {
     try {
+      setIsLoading(true);
+
       const url =
         "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
 
@@ -107,6 +111,8 @@ function ModalAddTransaction({ handleNewTransaction }) {
       if (data != 500) {
         handleNewTransaction(data);
       }
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -151,6 +157,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
                     <Input
+                      disabled={isLoading}
                       id="description"
                       placeholder="Enter transaction description"
                       value={transaction.description}
@@ -171,6 +178,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   <div className="space-y-2">
                     <Label htmlFor="category">Category</Label>
                     <Select
+                      disabled={isLoading}
                       value={transaction.category}
                       onValueChange={(e) =>
                         setTransaction({
@@ -200,6 +208,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                   <div className="space-y-2">
                     <Label htmlFor="amount">Amount</Label>
                     <Input
+                      disabled={isLoading}
                       id="amount"
                       type="number"
                       step="0.01"
@@ -231,6 +240,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         })
                       }
                       className="flex space-x-4"
+                      disabled={isLoading}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="incoming" id="incoming" />
@@ -263,6 +273,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     <div className="relative">
                       <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <input
+                        disabled={isLoading}
                         type="date"
                         id="date"
                         value={transaction.date || ""}
@@ -292,7 +303,16 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 >
                   Cancel
                 </Button>
-                <Button type="submit">Add Transaction</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center">
+                      <div class="mr-2 w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    <span>Add Transaction</span>
+                  )}
+                </Button>
               </DialogFooter>
             </form>
           </div>
