@@ -113,9 +113,28 @@ function ModalAddTransaction({ handleNewTransaction }) {
       }
 
       setIsLoading(false);
+      reset();
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const reset = () => {
+    setTransaction({
+      description: "",
+      category: "",
+      date: "",
+      amount: "",
+      type: "incoming",
+    });
+
+    setErrors({
+      description: false,
+      category: false,
+      date: false,
+      amount: false,
+      type: false,
+    });
   };
 
   return (
@@ -299,7 +318,10 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    reset();
+                  }}
                 >
                   Cancel
                 </Button>
