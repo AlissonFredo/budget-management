@@ -10,6 +10,7 @@ import { ArrowDownCircle, ArrowUpCircle, Calendar, Trash2 } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "../ui/button";
+import { useState } from "react";
 
 function ListTransactions({
   transactions,
@@ -33,6 +34,10 @@ function ListTransactions({
 export default ListTransactions;
 
 function TableTransaction({ transactions, handleRemoveTransaction }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [idRemove, setIdRemove] = useState(null);
+
   const getCategoryColor = (category) => {
     const colors = {
       Salary:
@@ -59,6 +64,8 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
 
   const removeTransaction = async (id) => {
     try {
+      setIdRemove(id);
+      setIsLoading(true);
       const query_params = new URLSearchParams({
         limit: 1,
         query_type: "and",
@@ -80,6 +87,8 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
       });
 
       handleRemoveTransaction(filteredTransactions);
+      setIsLoading(false);
+      setIdRemove(null);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -140,15 +149,19 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
                 {transaction.amount.toFixed(2)}
               </TableCell>
               <TableCell>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => removeTransaction(transaction.key)}
-                >
-                  <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-                  <span className="sr-only">Delete</span>
-                </Button>
+                {isLoading && transaction.key == idRemove ? (
+                  <div className="text-lg font-medium mr-2 w-4 h-4 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => removeTransaction(transaction.key)}
+                  >
+                    <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
+                    <span className="sr-only">Delete</span>
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
