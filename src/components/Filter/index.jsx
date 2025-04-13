@@ -63,14 +63,14 @@ function Filter({ totalTransactions, selectedMonth, onSelectMonth }) {
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={() => onSelectMonth("all")}
             >
               All Time
             </Button>
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={() => onSelectMonth(currentMonth)}
             >
               This Month
@@ -85,10 +85,10 @@ function Filter({ totalTransactions, selectedMonth, onSelectMonth }) {
                   <span>Transactions</span>
                   <span className="font-medium">{totalTransactions}</span>
                 </div>
-                <div className="flex justify-between py-1 border-t">
+                {/* <div className="flex justify-between py-1 border-t">
                   <span>Time Period</span>
                   <span className="font-medium">Mar-Apr 2025</span>
-                </div>
+                </div> */}
               </div>
             </CardContent>
           </Card>
