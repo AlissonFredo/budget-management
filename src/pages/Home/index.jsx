@@ -18,12 +18,13 @@ function Home() {
   const [transactions, setTransactions] = useState([]);
 
   const [selectedMonth, setSelectedMonth] = useState("all");
+  const [selectedYears, setSelectedYears] = useState("all");
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getTransactions();
-  }, [selectedMonth]);
+  }, [selectedMonth, selectedYears]);
 
   const getTransactions = async () => {
     try {
@@ -31,13 +32,20 @@ function Home() {
 
       let query = {
         limit: 999,
+        query_type: "and",
       };
 
       if (selectedMonth != "all") {
         query = {
           ...query,
-          query_type: "and",
           month: selectedMonth,
+        };
+      }
+
+      if (selectedYears != "all") {
+        query = {
+          ...query,
+          year: selectedYears,
         };
       }
 
@@ -79,6 +87,8 @@ function Home() {
           totalTransactions={transactions.length}
           selectedMonth={selectedMonth}
           onSelectMonth={(month) => setSelectedMonth(month)}
+          selectedYears={selectedYears}
+          onSelectedYears={(year) => setSelectedYears(year)}
         />
 
         <Card className="md:col-span-3">
