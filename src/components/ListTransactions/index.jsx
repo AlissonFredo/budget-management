@@ -11,6 +11,14 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 function ListTransactions({
   transactions,
@@ -37,6 +45,24 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [idRemove, setIdRemove] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);
+  const start = (currentPage - 1) * itemsPerPage;
+  const paginatedTransactions = transactions.slice(start, start + itemsPerPage);
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
 
   const getCategoryColor = (category) => {
     const colors = {
@@ -107,7 +133,7 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.map((transaction) => (
+          {paginatedTransactions.map((transaction) => (
             <TableRow key={transaction.key} className="group">
               <TableCell className="font-medium">
                 <div className="flex items-center space-x-3">
@@ -155,7 +181,7 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                     onClick={() => removeTransaction(transaction.key)}
                   >
                     <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
@@ -167,6 +193,36 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
           ))}
         </TableBody>
       </Table>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="cursor-pointer"
+            />
+          </PaginationItem>
+
+          {Array.from({ length: totalPages }, (_, i) => `${i + 1}`).map(
+            (value, key) => (
+              <PaginationItem key={key}>
+                <PaginationLink isActive={value == currentPage}>
+                  {value}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="cursor-pointer"
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
