@@ -24,12 +24,22 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [transaction, setTransaction] = useState({
     description: "",
     category: "",
     date: "",
     amount: "",
     type: "incoming",
+  });
+
+  const [errors, setErrors] = useState({
+    description: false,
+    category: false,
+    date: false,
+    amount: false,
+    type: false,
   });
 
   const categories = [
@@ -47,9 +57,29 @@ function ModalAddTransaction({ handleNewTransaction }) {
     { value: "Other", label: "Other" },
   ];
 
-  const submitTransaction = async (event) => {
+  const handleSubmitTransaction = (event) => {
+    event.preventDefault();
+
+    let tempo = {
+      description: transaction.description == "",
+      category: transaction.category == "",
+      date: transaction.date == "",
+      amount: transaction.amount == "",
+      type: transaction.type == "",
+    };
+
+    setErrors(tempo);
+
+    const hasEmptyFields = Object.values(tempo).some((value) => value === true);
+
+    if (!hasEmptyFields) {
+      submitTransaction();
+    }
+  };
+
+  const submitTransaction = async () => {
     try {
-      event.preventDefault();
+      setIsLoading(true);
 
       const url =
         "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
@@ -81,9 +111,30 @@ function ModalAddTransaction({ handleNewTransaction }) {
       if (data != 500) {
         handleNewTransaction(data);
       }
+
+      setIsLoading(false);
+      reset();
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const reset = () => {
+    setTransaction({
+      description: "",
+      category: "",
+      date: "",
+      amount: "",
+      type: "incoming",
+    });
+
+    setErrors({
+      description: false,
+      category: false,
+      date: false,
+      amount: false,
+      type: false,
+    });
   };
 
   return (
@@ -116,12 +167,16 @@ function ModalAddTransaction({ handleNewTransaction }) {
               </DialogDescription>
             </DialogHeader>
 
-            <form className="space-y-6 py-4">
+            <form
+              onSubmit={(event) => handleSubmitTransaction(event)}
+              className="space-y-6 py-4"
+            >
               <div className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
                     <Input
+                      disabled={isLoading}
                       id="description"
                       placeholder="Enter transaction description"
                       value={transaction.description}
@@ -131,13 +186,18 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           description: e.target.value,
                         })
                       }
-                      required
                     />
+                    {errors.description && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="category">Category</Label>
                     <Select
+                      disabled={isLoading}
                       value={transaction.category}
                       onValueChange={(e) =>
                         setTransaction({
@@ -145,7 +205,6 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           category: e,
                         })
                       }
-                      required
                     >
                       <SelectTrigger id="category" className="w-full">
                         <SelectValue placeholder="Select category" />
@@ -158,11 +217,17 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         ))}
                       </SelectContent>
                     </Select>
+                    {errors.category && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="amount">Amount</Label>
                     <Input
+                      disabled={isLoading}
                       id="amount"
                       type="number"
                       step="0.01"
@@ -175,8 +240,12 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           amount: e.target.value,
                         })
                       }
-                      required
                     />
+                    {errors.amount && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -190,6 +259,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         })
                       }
                       className="flex space-x-4"
+                      disabled={isLoading}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="incoming" id="incoming" />
@@ -210,6 +280,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         </Label>
                       </div>
                     </RadioGroup>
+                    {errors.type && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -217,7 +292,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     <div className="relative">
                       <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <input
-                        required
+                        disabled={isLoading}
                         type="date"
                         id="date"
                         value={transaction.date || ""}
@@ -230,6 +305,11 @@ function ModalAddTransaction({ handleNewTransaction }) {
                         className="w-full pl-10 pr-3 py-2 border border-input bg-background rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
                       />
                     </div>
+                    {errors.date && (
+                      <p className="text-rose-600 text-sm">
+                        This field is required
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -238,11 +318,23 @@ function ModalAddTransaction({ handleNewTransaction }) {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    reset();
+                  }}
                 >
                   Cancel
                 </Button>
-                <Button onClick={submitTransaction}>Add Transaction</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center">
+                      <div className="mr-2 w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    <span>Add Transaction</span>
+                  )}
+                </Button>
               </DialogFooter>
             </form>
           </div>
