@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { transactionsSearch } from "@/service/transactionsService";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -26,46 +27,16 @@ function Home() {
   }, [selectedMonth, selectedYears]);
 
   const getTransactions = async () => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      let query = {
-        limit: 999,
-        query_type: "and",
-      };
+    const month = selectedMonth != "all" ? selectedMonth : "";
+    const year = selectedYears != "all" ? selectedYears : "";
 
-      if (selectedMonth != "all") {
-        query = {
-          ...query,
-          month: selectedMonth,
-        };
-      }
+    const result = await transactionsSearch(month, year);
 
-      if (selectedYears != "all") {
-        query = {
-          ...query,
-          year: selectedYears,
-        };
-      }
+    setTransactions(result);
 
-      query = new URLSearchParams(query);
-
-      const url =
-        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
-        query;
-
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Response to fetch transactions", data);
-
-      if (Array.isArray(data)) {
-        setTransactions(data);
-      }
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setIsLoading(false);
   };
 
   const outgoing = transactions
