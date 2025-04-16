@@ -6,6 +6,7 @@ import Filter from "../../components/Filter";
 import Container from "@/components/Container";
 import Header from "@/components/Header";
 import SummaryCards from "@/components/SummaryCards";
+import CardBarChart from "@/components/CardBarChart";
 import {
   Card,
   CardContent,
@@ -13,13 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { transactionsSearch } from "@/service/transactionsService";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
-
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYears, setSelectedYears] = useState("all");
-
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -27,46 +27,16 @@ function Home() {
   }, [selectedMonth, selectedYears]);
 
   const getTransactions = async () => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      let query = {
-        limit: 999,
-        query_type: "and",
-      };
+    const month = selectedMonth != "all" ? selectedMonth : "";
+    const year = selectedYears != "all" ? selectedYears : "";
 
-      if (selectedMonth != "all") {
-        query = {
-          ...query,
-          month: selectedMonth,
-        };
-      }
+    const result = await transactionsSearch(month, year);
 
-      if (selectedYears != "all") {
-        query = {
-          ...query,
-          year: selectedYears,
-        };
-      }
+    setTransactions(result);
 
-      query = new URLSearchParams(query);
-
-      const url =
-        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1?" +
-        query;
-
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Response to fetch transactions", data);
-
-      if (Array.isArray(data)) {
-        setTransactions(data);
-      }
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setIsLoading(false);
   };
 
   const outgoing = transactions
@@ -82,7 +52,7 @@ function Home() {
       <Header />
       <SummaryCards incoming={incoming} outgoing={outgoing} />
 
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <Filter
           totalTransactions={transactions.length}
           selectedMonth={selectedMonth}
@@ -119,6 +89,10 @@ function Home() {
             />
           </CardContent>
         </Card>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <CardBarChart />
       </section>
     </Container>
   );
