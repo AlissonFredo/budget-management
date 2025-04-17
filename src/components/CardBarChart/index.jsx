@@ -5,9 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import {
   ChartContainer,
   ChartLegend,
@@ -15,22 +13,82 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { transactionsSearch } from "@/service/transactionsService";
+import { useEffect, useState } from "react";
 
 function CardBarChart() {
-  const chartData = [
-    { month: "January", income: 186, outgoing: 80 },
-    { month: "February", income: 305, outgoing: 200 },
-    { month: "March", income: 237, outgoing: 120 },
-    { month: "April", income: 73, outgoing: 190 },
-    { month: "May", income: 209, outgoing: 130 },
-    { month: "June", income: 214, outgoing: 140 },
-    { month: "July", income: 214, outgoing: 140 },
-    { month: "August", income: 214, outgoing: 140 },
-    { month: "September", income: 214, outgoing: 140 },
-    { month: "October", income: 214, outgoing: 140 },
-    { month: "November", income: 214, outgoing: 140 },
-    { month: "December", income: 214, outgoing: 140 },
-  ];
+  const [chartData, setChartData] = useState([
+    { month: "January", income: 0, outgoing: 0 },
+    { month: "February", income: 0, outgoing: 0 },
+    { month: "March", income: 0, outgoing: 0 },
+    { month: "April", income: 0, outgoing: 0 },
+    { month: "May", income: 0, outgoing: 0 },
+    { month: "June", income: 0, outgoing: 0 },
+    { month: "July", income: 0, outgoing: 0 },
+    { month: "August", income: 0, outgoing: 0 },
+    { month: "September", income: 0, outgoing: 0 },
+    { month: "October", income: 0, outgoing: 0 },
+    { month: "November", income: 0, outgoing: 0 },
+    { month: "December", income: 0, outgoing: 0 },
+  ]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    const result = await transactionsSearch("", 2025);
+
+    agregateTransactions(result);
+  };
+
+  const agregateTransactions = (values) => {
+    const monthMap = {
+      january: "January",
+      february: "February",
+      march: "March",
+      april: "April",
+      may: "May",
+      june: "June",
+      july: "July",
+      august: "August",
+      september: "September",
+      october: "October",
+      november: "November",
+      december: "December",
+    };
+
+    const aggregatedData = {};
+
+    values.forEach((transaction) => {
+      const monthCapitalized = monthMap[transaction.month];
+
+      if (!aggregatedData[monthCapitalized]) {
+        aggregatedData[monthCapitalized] = { income: 0, outgoing: 0 };
+      }
+
+      if (transaction.type === "incoming") {
+        aggregatedData[monthCapitalized].income += transaction.amount;
+      } else if (transaction.type === "outgoing") {
+        aggregatedData[monthCapitalized].outgoing += transaction.amount;
+      }
+    });
+
+    const updatedChartData = chartData.map((data) => {
+      const aggregated = aggregatedData[data.month] || {
+        income: 0,
+        outgoing: 0,
+      };
+
+      return {
+        ...data,
+        income: aggregated.income,
+        outgoing: aggregated.outgoing,
+      };
+    });
+
+    setChartData(updatedChartData);
+  };
 
   const chartConfig = {
     income: {

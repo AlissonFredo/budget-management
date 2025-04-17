@@ -15,8 +15,6 @@ export async function transactionsSearch(month = "", year = "") {
     const response = await fetch(`${URL}page1?${query}`);
     const data = await response.json();
 
-    console.log("Response to fetch transactions", data);
-
     if (Array.isArray(data)) {
       return data;
     }
