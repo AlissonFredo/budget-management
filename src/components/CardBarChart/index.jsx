@@ -15,8 +15,27 @@ import {
 } from "@/components/ui/chart";
 import { transactionsSearch } from "@/service/transactionsService";
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { CalendarIcon } from "lucide-react";
 
 function CardBarChart() {
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000;
+  const endYear = currentYear + 10;
+
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => {
+    const year = startYear + i;
+    return { value: year.toString(), label: year.toString() };
+  }).reverse();
+
+  const [selectedYears, setSelectedYears] = useState(currentYear);
+
   const [chartData, setChartData] = useState([
     { month: "January", income: 0, outgoing: 0 },
     { month: "February", income: 0, outgoing: 0 },
@@ -34,10 +53,10 @@ function CardBarChart() {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [selectedYears]);
 
   const fetchTransactions = async () => {
-    const result = await transactionsSearch("", 2025);
+    const result = await transactionsSearch("", selectedYears);
 
     agregateTransactions(result);
   };
@@ -114,7 +133,24 @@ function CardBarChart() {
             </CardDescription>
           </div>
           <div>
-            teste
+            <Select
+              value={selectedYears.toString()}
+              onValueChange={(year) => setSelectedYears(year)}
+            >
+              <SelectTrigger className="w-full">
+                <div className="flex items-center">
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Select year" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((year) => (
+                  <SelectItem key={year.value} value={year.value}>
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </CardHeader>
