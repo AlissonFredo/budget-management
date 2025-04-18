@@ -93,11 +93,11 @@ function CardBarChart() {
   const chartConfig = {
     income: {
       label: "Income",
-      color: "#7dcf9c",
+      color: "hsl(var(--chart-6))",
     },
     outgoing: {
       label: "Expenses",
-      color: "#f87171",
+      color: "hsl(var(--chart-7))",
     },
   };
 
@@ -112,6 +112,9 @@ function CardBarChart() {
             <CardDescription>
               Annual comparison between income and expenses
             </CardDescription>
+          </div>
+          <div>
+            teste
           </div>
         </div>
       </CardHeader>
