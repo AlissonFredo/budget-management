@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { transactionSubmit } from "@/service/transactionsService";
 
 function ModalAddTransaction({ handleNewTransaction }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,45 +79,29 @@ function ModalAddTransaction({ handleNewTransaction }) {
   };
 
   const submitTransaction = async () => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const url =
-        "https://sheet2api.com/v1/rtjzbZKQ2CY1/budget-management/page1";
+    let [year, month, day] = transaction.date.split("-");
+    const date = new Date(year, month - 1, day);
+    month = date.toLocaleString("en-US", { month: "long" }).toLowerCase();
 
-      let [year, month, day] = transaction.date.split("-");
-      const date = new Date(year, month - 1, day);
-      month = date.toLocaleString("en-US", { month: "long" }).toLowerCase();
+    const value = await transactionSubmit({
+      key: uuidv4(),
+      description: transaction.description,
+      category: transaction.category,
+      amount: parseInt(transaction.amount, 10),
+      day: day,
+      month: month,
+      year: year,
+      type: transaction.type,
+    });
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          key: uuidv4(),
-          description: transaction.description,
-          category: transaction.category,
-          amount: parseInt(transaction.amount, 10),
-          day: day,
-          month: month,
-          year: year,
-          type: transaction.type,
-        }),
-      });
-
-      const data = await response.json();
-      console.log("Response create transactions", data);
-
-      if (data != 500) {
-        handleNewTransaction(data);
-      }
-
-      setIsLoading(false);
-      reset();
-    } catch (error) {
-      console.error("Error:", error);
+    if (value) {
+      handleNewTransaction(value);
     }
+
+    setIsLoading(false);
+    reset();
   };
 
   const reset = () => {
