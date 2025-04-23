@@ -17,7 +17,7 @@ import {
 import { transactionsSearch } from "@/service/transactionsService";
 import CardPieChart from "@/components/CardPieChart";
 
-function Home() {
+function Dashboard() {
   const [transactions, setTransactions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYears, setSelectedYears] = useState("all");
@@ -101,4 +101,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;
