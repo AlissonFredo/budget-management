@@ -1,7 +1,7 @@
 {
   "name": "budget-management",
   "private": true,
-  "version": "1.38.0",
+  "version": "1.40.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -26,6 +26,7 @@
     "react": "^19.0.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^19.0.0",
+    "react-router": "^7.5.1",
     "recharts": "^2.15.2",
     "tailwind-merge": "^3.1.0",
     "tailwindcss": "^4.0.14",
