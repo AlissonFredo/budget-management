@@ -14,7 +14,7 @@ function LandingPage() {
           </div>
           <div className="flex items-center space-x-4">
             <Button asChild>
-              <Link to="#">Get Started</Link>
+              <Link to="/setup">Get Started</Link>
             </Button>
           </div>
         </nav>
@@ -31,7 +31,7 @@ function LandingPage() {
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Button size="lg" asChild>
-            <Link to="#" className="px-8">
+            <Link to="/setup" className="px-8">
               Get Started Now
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -128,7 +128,7 @@ function LandingPage() {
             privacy.
           </p>
           <Button size="lg" asChild>
-            <Link to="#" className="px-8">
+            <Link to="/setup" className="px-8">
               Get Started Now
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

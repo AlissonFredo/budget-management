@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import Dashboard from "./pages/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router";
 import LandingPage from "./pages/LandingPage";
+import SetupPage from "./pages/SetupPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -10,6 +11,7 @@ createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/setup" element={<SetupPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
