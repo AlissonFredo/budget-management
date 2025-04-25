@@ -12,22 +12,28 @@ import {
   Share2,
   User,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Image1 from "../../assets/image1.png";
 import Image2 from "../../assets/image2.png";
 import { useState } from "react";
 
 function SetupPage() {
   const [apiLink, setApiLink] = useState("");
-
-  console.log(apiLink);
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setIsSubmitting(true);
+
     if (apiLink == "") return;
 
-    console.log("handleSubmit");
+    setTimeout(() => {
+      localStorage.setItem("sheet2apiLink", apiLink);
+
+      navigate("/dashboard");
+    }, 1500);
   };
 
   return (
@@ -195,7 +201,7 @@ function SetupPage() {
                     onChange={(e) => setApiLink(e.target.value)}
                   />
                   <Button className="w-full" onClick={(e) => handleSubmit(e)}>
-                    {false ? (
+                    {isSubmitting ? (
                       <>
                         <span className="animate-spin mr-2">⏳</span>
                         Connecting...

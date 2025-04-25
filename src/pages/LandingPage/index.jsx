@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Lock, Shield, Table } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Card, CardContent } from "@/components/ui/card";
 
 function LandingPage() {
+  const navigate = useNavigate();
+  const sheet2apiLink = localStorage.getItem("sheet2apiLink");
+
+  const navigateTo = () => {
+    if (sheet2apiLink == null) {
+      navigate("/setup");
+    } else {
+      navigate("/dashboard");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       <header className="container mx-auto py-6 px-4">
@@ -13,9 +24,7 @@ function LandingPage() {
             <span className="text-xl font-bold">BudgetManagement</span>
           </div>
           <div className="flex items-center space-x-4">
-            <Button asChild>
-              <Link to="/setup">Get Started</Link>
-            </Button>
+            <Button onClick={navigateTo}>Get Started</Button>
           </div>
         </nav>
       </header>
@@ -30,21 +39,11 @@ function LandingPage() {
           sensitive information.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button size="lg" asChild>
-            <Link to="/setup" className="px-8">
-              Get Started Now
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <Button size="lg" className="px-8" onClick={navigateTo}>
+            Get Started Now
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
-
-        {/* <div className="mt-16 rounded-lg overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800">
-          <img
-            src=""
-            alt="BudgetManagement Dashboard"
-            className="w-full"
-          />
-        </div> */}
       </section>
 
       <section className="container mx-auto py-20 px-4">
@@ -127,11 +126,9 @@ function LandingPage() {
             Start managing your budget today with complete data ownership and
             privacy.
           </p>
-          <Button size="lg" asChild>
-            <Link to="/setup" className="px-8">
-              Get Started Now
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <Button size="lg" className="px-8" onClick={navigateTo}>
+            Get Started Now
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </section>

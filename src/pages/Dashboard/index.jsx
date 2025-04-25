@@ -16,8 +16,13 @@ import {
 } from "@/components/ui/card";
 import { transactionsSearch } from "@/service/transactionsService";
 import CardPieChart from "@/components/CardPieChart";
+import { useNavigate } from "react-router";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const sheet2apiLink = localStorage.getItem("sheet2apiLink");
+  if (sheet2apiLink == null) navigate("/setup");
+
   const [transactions, setTransactions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYears, setSelectedYears] = useState("all");
