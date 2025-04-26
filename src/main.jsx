@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router";
 import LandingPage from "./pages/LandingPage";
 import SetupPage from "./pages/SetupPage";
+import Navbar from "./components/Navbar";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

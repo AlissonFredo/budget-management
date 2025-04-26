@@ -17,6 +17,7 @@ import {
 import { transactionsSearch } from "@/service/transactionsService";
 import CardPieChart from "@/components/CardPieChart";
 import { useNavigate } from "react-router";
+import Navbar from "@/components/Navbar";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -55,6 +56,8 @@ function Dashboard() {
 
   return (
     <Container>
+      <Navbar />
+
       <Header />
       <SummaryCards incoming={incoming} outgoing={outgoing} />
 
