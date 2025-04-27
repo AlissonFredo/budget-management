@@ -16,8 +16,6 @@ function Navbar() {
   const languages = [
     { code: "en", name: "English" },
     { code: "pt", name: "Português" },
-    { code: "es", name: "Español" },
-    { code: "fr", name: "Français" },
   ];
 
   const getCurrentLanguageName = () => {
@@ -43,19 +41,18 @@ function Navbar() {
   ];
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+    <header className="flex justify-center border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex container h-16 grid grid-cols-2 md:grid-cols-3">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
             <Shield className="h-6 w-6 text-emerald-600" />
             <span className="text-xl font-bold hidden sm:inline-block">
-              BudgetSafe
+              BudgetManagement
             </span>
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center justify-center gap-6">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -70,7 +67,7 @@ function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-end gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="h-8 gap-1">
@@ -100,7 +97,8 @@ function Navbar() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[240px] sm:w-[300px]">
+
+            <SheetContent side="right" className="w-[260px] sm:w-[300px] p-4">
               <div className="flex flex-col gap-6 pt-6">
                 <div className="flex items-center justify-between">
                   <Link
@@ -109,16 +107,8 @@ function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Shield className="h-6 w-6 text-emerald-600" />
-                    <span className="text-xl font-bold">BudgetSafe</span>
+                    <span className="text-sm font-bold">BudgetManagement</span>
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <X className="h-5 w-5" />
-                    <span className="sr-only">Close menu</span>
-                  </Button>
                 </div>
                 <nav className="flex flex-col gap-4">
                   {navItems.map((item) => (
