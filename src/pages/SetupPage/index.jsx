@@ -15,12 +15,19 @@ import {
 import { Link, useNavigate } from "react-router";
 import Image1 from "../../assets/image1.png";
 import Image2 from "../../assets/image2.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function SetupPage() {
   const [apiLink, setApiLink] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const sheet2apiLink = localStorage.getItem("sheet2apiLink");
+
+  useEffect(() => {
+    if (sheet2apiLink != null) {
+      setApiLink(sheet2apiLink);
+    }
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -176,9 +183,9 @@ function SetupPage() {
                 <p className="text-sm font-medium mb-2">
                   Your API link should look something like:
                 </p>
-                <code className="text-xs bg-background p-2 rounded block overflow-x-auto">
-                  https://sheet2api.com/v1/FgXSaM7ZJQgM/budget-management
-                </code>
+                <p className="text-xs bg-background p-2 rounded">
+                  https://sheet2api.com/v1/ FgXSaM7ZJQgM/ budget-management
+                </p>
               </div>
             </StepCard>
           </div>
@@ -198,6 +205,7 @@ function SetupPage() {
                   <Input
                     placeholder="https://sheet2api.com/v1/YOUR_API_KEY/YOUR_SHEET_NAME"
                     className="w-full"
+                    value={apiLink}
                     onChange={(e) => setApiLink(e.target.value)}
                   />
                   <Button className="w-full" onClick={(e) => handleSubmit(e)}>
