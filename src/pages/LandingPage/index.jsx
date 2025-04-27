@@ -17,18 +17,6 @@ function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
-      <header className="container mx-auto py-6 px-4">
-        <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Shield className="h-6 w-6 text-emerald-600" />
-            <span className="text-xl font-bold">BudgetManagement</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button onClick={navigateTo}>Get Started</Button>
-          </div>
-        </nav>
-      </header>
-
       <section className="container mx-auto py-20 px-4 text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 max-w-4xl mx-auto">
           Manage Your Budget with{" "}
@@ -48,7 +36,7 @@ function LandingPage() {
 
       <section className="container mx-auto py-20 px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Your Data, Your Control</h2>
+          <h2 className="text-2xl md:text-3xlfont-bold mb-4">Your Data, Your Control</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             BudgetManagement is designed with your privacy and data ownership as
             the top priority.
@@ -79,7 +67,7 @@ function LandingPage() {
       <section className="bg-white dark:bg-slate-900 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">How It Works</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Simple, secure, and transparent. Here's how BudgetManagement keeps
               your data in your control.
@@ -92,7 +80,7 @@ function LandingPage() {
 
       <section className="container mx-auto py-20 px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
             Why Choose BudgetManagement
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -119,7 +107,7 @@ function LandingPage() {
 
       <section className="bg-emerald-50 dark:bg-emerald-950/20 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
             Ready to take control of your finances?
           </h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
