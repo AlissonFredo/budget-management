@@ -35,6 +35,7 @@ function CardBarChart() {
   }).reverse();
 
   const [selectedYears, setSelectedYears] = useState(currentYear);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [chartData, setChartData] = useState([
     { month: "January", income: 0, outgoing: 0 },
@@ -56,7 +57,11 @@ function CardBarChart() {
   }, [selectedYears]);
 
   const fetchTransactions = async () => {
+    setIsLoading(true);
+
     const result = await transactionsSearch("", selectedYears);
+
+    setIsLoading(false);
 
     agregateTransactions(result);
   };
@@ -155,25 +160,38 @@ function CardBarChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="income" fill="var(--color-income)" radius={4} />
-            <Bar dataKey="outgoing" fill="var(--color-outgoing)" radius={4} />
-          </BarChart>
-        </ChartContainer>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+            <BarChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="income" fill="var(--color-income)" radius={4} />
+              <Bar dataKey="outgoing" fill="var(--color-outgoing)" radius={4} />
+            </BarChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );
 }
 
 export default CardBarChart;
+
+function Loading() {
+  return (
+    <div className="flex justify-center items-center py-12 px-4 text-muted-foreground">
+      <div className="text-lg font-medium mr-2 w-4 h-4 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
+      <span>Loading...</span>
+    </div>
+  );
+}
