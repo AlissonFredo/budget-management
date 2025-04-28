@@ -100,7 +100,7 @@ function Dashboard() {
       <section className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <CardBarChart />
 
-        <CardPieChart transactions={transactions} />
+        <CardPieChart transactions={transactions} isLoading={isLoading} />
       </section>
     </Container>
   );
