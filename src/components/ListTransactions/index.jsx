@@ -19,6 +19,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import Loading from "../Loading";
 
 function ListTransactions({
   transactions,
@@ -26,7 +27,7 @@ function ListTransactions({
   isLoading,
 }) {
   if (isLoading) {
-    return <TransactionLoading />;
+    return <Loading />;
   } else if (transactions.length === 0) {
     return <TransactionsNotFaund />;
   } else {
@@ -235,15 +236,6 @@ function TransactionsNotFaund() {
       <p className="text-sm text-muted-foreground text-center mt-1">
         Try selecting a different month or adding new transactions.
       </p>
-    </div>
-  );
-}
-
-function TransactionLoading() {
-  return (
-    <div className="flex justify-center items-center py-12 px-4 text-muted-foreground">
-      <div className="text-lg font-medium mr-2 w-4 h-4 border-4 border-muted-foreground border-t-transparent rounded-full animate-spin"></div>
-      <span>Loading...</span>
     </div>
   );
 }

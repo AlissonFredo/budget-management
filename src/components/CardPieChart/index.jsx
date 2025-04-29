@@ -14,8 +14,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
+import Loading from "../Loading";
 
-function CardPieChart({ transactions }) {
+function CardPieChart({ transactions, isLoading }) {
   const [pieChart, setPieChart] = useState([]);
 
   const mapColorPieChart = {
@@ -136,35 +137,39 @@ function CardPieChart({ transactions }) {
         <CardDescription>Distribution of expenses by category.</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig}>
-          <PieChart>
-            <ChartTooltip
-              content={<ChartTooltipContent nameKey="amount" hideLabel />}
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Pie
-              data={pieChart}
-              dataKey="amount"
-              labelLine={false}
-              label={({ payload, ...props }) => {
-                return (
-                  <text
-                    cx={props.cx}
-                    cy={props.cy}
-                    x={props.x}
-                    y={props.y}
-                    textAnchor={props.textAnchor}
-                    dominantBaseline={props.dominantBaseline}
-                    fill="hsla(var(--foreground))"
-                  >
-                    {payload.amount}
-                  </text>
-                );
-              }}
-              nameKey="category"
-            />
-          </PieChart>
-        </ChartContainer>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <ChartContainer config={chartConfig}>
+            <PieChart>
+              <ChartTooltip
+                content={<ChartTooltipContent nameKey="amount" hideLabel />}
+              />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Pie
+                data={pieChart}
+                dataKey="amount"
+                labelLine={false}
+                label={({ payload, ...props }) => {
+                  return (
+                    <text
+                      cx={props.cx}
+                      cy={props.cy}
+                      x={props.x}
+                      y={props.y}
+                      textAnchor={props.textAnchor}
+                      dominantBaseline={props.dominantBaseline}
+                      fill="hsla(var(--foreground))"
+                    >
+                      {payload.amount}
+                    </text>
+                  );
+                }}
+                nameKey="category"
+              />
+            </PieChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   );
