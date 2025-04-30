@@ -18,6 +18,7 @@ import { transactionsSearch } from "@/service/transactionsService";
 import CardPieChart from "@/components/CardPieChart";
 import { useNavigate } from "react-router";
 import IncomeTable from "@/components/IncomeTable";
+import ExpensesTable from "@/components/ExpensesTable";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -104,6 +105,8 @@ function Dashboard() {
         <CardPieChart transactions={transactions} isLoading={isLoading} />
 
         <IncomeTable />
+
+        <ExpensesTable />
       </section>
     </Container>
   );
