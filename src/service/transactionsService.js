@@ -1,6 +1,6 @@
 const URL = localStorage.getItem("sheet2apiLink");
 
-export async function transactionsSearch(month = "", year = "") {
+export async function transactionsSearch(month = "", year = "", type = "") {
   try {
     let query = {
       limit: 999,
@@ -9,6 +9,7 @@ export async function transactionsSearch(month = "", year = "") {
 
     if (month != "") query = { ...query, month: month };
     if (year != "") query = { ...query, year: year };
+    if (type != "") query = { ...query, type: type };
 
     query = new URLSearchParams(query);
 

@@ -1,3 +1,4 @@
+import { transactionsSearch } from "@/service/transactionsService";
 import {
   Card,
   CardContent,
@@ -13,8 +14,88 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { useEffect, useState } from "react";
 
 function IncomeTable() {
+  const mapColumns = [
+    "category",
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+    "total",
+    "average",
+  ];
+
+  const [summary, setSummary] = useState([]);
+
+  const fetchTransactions = async () => {
+    const transactions = await transactionsSearch("", "2025", "incoming");
+
+    formatTransactionsToSummary(transactions);
+  };
+
+  const formatTransactionsToSummary = (transactions) => {
+    const categories = [
+      ...new Set(transactions.map((transaction) => transaction.category)),
+    ];
+
+    const data = [];
+
+    categories.forEach((category) => {
+      const obj = {};
+
+      mapColumns.forEach((column) => {
+        if (column == "category") {
+          obj[column] = category;
+        } else {
+          obj[column] = 0;
+        }
+      });
+
+      data.push(obj);
+    });
+
+    transactions.forEach((transaction) => {
+      const month = transaction.month.substr(0, 3);
+
+      data.forEach((value) => {
+        if (value["category"] == transaction.category) {
+          value[month] += transaction.amount;
+          value["total"] += transaction.amount;
+
+          const keysMonths = Object.keys(value).filter(
+            (key) => key !== "total" && key !== "average" && key !== "category"
+          );
+
+          const monthsFilled = keysMonths.filter(
+            (key) => value[key] != 0
+          ).length;
+
+          value["average"] = value["total"] / monthsFilled;
+        }
+      });
+    });
+
+    setSummary(data);
+  };
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
   return (
     <Card className="md:col-span-4">
       <CardHeader className="border-b">
@@ -31,41 +112,24 @@ function IncomeTable() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead>-</TableHead>
-              <TableHead>Jan</TableHead>
-              <TableHead>Fev</TableHead>
-              <TableHead>Mar</TableHead>
-              <TableHead>Apr</TableHead>
-              <TableHead>May</TableHead>
-              <TableHead>Jun</TableHead>
-              <TableHead>Jul</TableHead>
-              <TableHead>Aug</TableHead>
-              <TableHead>Sep</TableHead>
-              <TableHead>Oct</TableHead>
-              <TableHead>Nov</TableHead>
-              <TableHead>Dec</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Average</TableHead>
+              {mapColumns.map((column) => (
+                <TableHead>{capitalizeFirstLetter(column)}</TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow className="group">
-              <TableCell className="text-sm text-muted-foreground">Salary</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$30000.00</TableCell>
-              <TableCell className="text-sm text-muted-foreground">$2500.00</TableCell>
-            </TableRow>
+            {summary.map((value, keyValue) => (
+              <TableRow key={keyValue} className="group">
+                {mapColumns.map((column, keyColumn) => (
+                  <TableCell
+                    key={keyColumn}
+                    className="text-sm text-muted-foreground"
+                  >
+                    {value[column]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </CardContent>
