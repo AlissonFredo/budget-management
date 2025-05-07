@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { useEffect, useState } from "react";
+import Loading from "../Loading";
 
 function IncomeTable() {
   const mapColumns = [
@@ -37,10 +38,16 @@ function IncomeTable() {
 
   const [summary, setSummary] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const fetchTransactions = async () => {
+    setIsLoading(true);
+
     const transactions = await transactionsSearch("", "2025", "incoming");
 
     formatTransactionsToSummary(transactions);
+
+    setIsLoading(false);
   };
 
   const formatTransactionsToSummary = (transactions) => {
@@ -109,29 +116,33 @@ function IncomeTable() {
         </div>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              {mapColumns.map((column) => (
-                <TableHead>{capitalizeFirstLetter(column)}</TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {summary.map((value, keyValue) => (
-              <TableRow key={keyValue} className="group">
-                {mapColumns.map((column, keyColumn) => (
-                  <TableCell
-                    key={keyColumn}
-                    className="text-sm text-muted-foreground"
-                  >
-                    {value[column]}
-                  </TableCell>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
+                {mapColumns.map((column) => (
+                  <TableHead>{capitalizeFirstLetter(column)}</TableHead>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {summary.map((value, keyValue) => (
+                <TableRow key={keyValue} className="group">
+                  {mapColumns.map((column, keyColumn) => (
+                    <TableCell
+                      key={keyColumn}
+                      className="text-sm text-muted-foreground"
+                    >
+                      {value[column]}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );
