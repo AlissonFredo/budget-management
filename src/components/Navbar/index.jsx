@@ -9,8 +9,12 @@ import { Globe, Home, Menu, Settings, Shield, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const languages = [
@@ -19,11 +23,9 @@ function Navbar() {
   ];
 
   const getCurrentLanguageName = () => {
-    // return (
-    //   languages.find((lang) => lang.code === currentLanguage)?.name || "English"
-    // );
-
-    return "English";
+    return (
+      languages.find((lang) => lang.code === currentLanguage)?.name || "English"
+    );
   };
 
   const navItems = [
@@ -81,7 +83,9 @@ function Navbar() {
               {languages.map((language) => (
                 <DropdownMenuItem
                   key={language.code}
-                  onClick={() => {}}
+                  onClick={() => {
+                    i18n.changeLanguage(currentLanguage === "pt" ? "en" : "pt");
+                  }}
                   className="bg-accent text-accent-foreground"
                 >
                   {language.name}
