@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Lock, Shield, Table } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 
 function LandingPage() {
   const navigate = useNavigate();
   const sheet2apiLink = localStorage.getItem("sheet2apiLink");
+  const { t } = useTranslation();
 
   const navigateTo = () => {
     if (sheet2apiLink == null) {
@@ -19,16 +21,15 @@ function LandingPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
       <section className="container mx-auto py-20 px-4 text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 max-w-4xl mx-auto">
-          Manage Your Budget with{" "}
-          <span className="text-emerald-600">Complete Data Ownership</span>
+          {t("landingpage.title1")}{" "}
+          <span className="text-emerald-600">{t("landingpage.title2")}</span>
         </h1>
         <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-          Your financial data stays in your Google Sheets. We never store your
-          sensitive information.
+          {t("landingpage.description")}
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Button size="lg" className="px-8" onClick={navigateTo}>
-            Get Started Now
+            {t("landingpage.button")}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -36,30 +37,31 @@ function LandingPage() {
 
       <section className="container mx-auto py-20 px-4">
         <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xlfont-bold mb-4">Your Data, Your Control</h2>
+          <h2 className="text-2xl md:text-3xlfont-bold mb-4">
+            {t("landingpage.title3")}
+          </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            BudgetManagement is designed with your privacy and data ownership as
-            the top priority.
+            {t("landingpage.description2")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           <LandingFeatureCard
             icon={<Table className="h-10 w-10 text-emerald-600" />}
-            title="Google Sheets Integration"
-            description="All your financial data is stored directly in your own Google Sheets. No middleman, no hidden databases."
+            title={t("landingpage.featurecard1_title")}
+            description={t("landingpage.featurecard1_description")}
           />
 
           <LandingFeatureCard
             icon={<Lock className="h-10 w-10 text-emerald-600" />}
-            title="100% Data Ownership"
-            description="You own your data completely. We never store your sensitive financial information on our servers."
+            title={t("landingpage.featurecard2_title")}
+            description={t("landingpage.featurecard2_description")}
           />
 
           <LandingFeatureCard
             icon={<Shield className="h-10 w-10 text-emerald-600" />}
-            title="Privacy by Design"
-            description="Our system is built from the ground up to respect your privacy and keep your financial data secure."
+            title={t("landingpage.featurecard3_title")}
+            description={t("landingpage.featurecard3_description")}
           />
         </div>
       </section>
@@ -67,10 +69,11 @@ function LandingPage() {
       <section className="bg-white dark:bg-slate-900 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              {t("landingpage.title4")}
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Simple, secure, and transparent. Here's how BudgetManagement keeps
-              your data in your control.
+              {t("landingpage.description3")}
             </p>
           </div>
 
@@ -81,21 +84,21 @@ function LandingPage() {
       <section className="container mx-auto py-20 px-4">
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Why Choose BudgetManagement
+            {t("landingpage.title5")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A budget management system that puts you first.
+            {t("landingpage.description4")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {[
-            "Your data stays in your Google Sheets, not our servers",
-            "Easy to export or backup your financial information",
-            "No risk of data breaches affecting your sensitive financial data",
-            "Access your budget from anywhere with Google Sheets integration",
-            "Full transparency on how your data is handled",
-            "No hidden fees or subscription traps",
+            t("landingpage.reasons1"),
+            t("landingpage.reasons2"),
+            t("landingpage.reasons3"),
+            t("landingpage.reasons4"),
+            t("landingpage.reasons5"),
+            t("landingpage.reasons6"),
           ].map((benefit, index) => (
             <div key={index} className="flex items-start space-x-3">
               <CheckCircle className="h-6 w-6 text-emerald-600 flex-shrink-0 mt-0.5" />
@@ -108,14 +111,13 @@ function LandingPage() {
       <section className="bg-emerald-50 dark:bg-emerald-950/20 py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Ready to take control of your finances?
+            {t("landingpage.title6")}
           </h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Start managing your budget today with complete data ownership and
-            privacy.
+            {t("landingpage.description5")}
           </p>
           <Button size="lg" className="px-8" onClick={navigateTo}>
-            Get Started Now
+            {t("landingpage.button")}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -133,24 +135,24 @@ function LandingPage() {
                 to="#"
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                Privacy Policy
+                {t("landingpage.privacypolicy")}
               </Link>
               <Link
                 href="#"
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                Terms of Service
+                {t("landingpage.termsofservice")}
               </Link>
               <Link
                 to="#"
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
-                Contact
+                {t("landingpage.contact")}
               </Link>
             </div>
           </div>
           <div className="mt-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} BudgetManagement. All rights reserved.
+            © {new Date().getFullYear()} {t("landingpage.rights")}
           </div>
         </div>
       </footer>
@@ -173,30 +175,28 @@ function LandingFeatureCard({ icon, title, description }) {
 }
 
 function LandingHowItWorks() {
+  const { t } = useTranslation();
+
   const steps = [
     {
       number: "01",
-      title: "Connect Your Google Sheet",
-      description:
-        "Link your Google Sheet to BudgetManagement with a simple authorization process.",
+      title: t("landingpage.howitworks1_title"),
+      description: t("landingpage.howitworks1_description"),
     },
     {
       number: "02",
-      title: "Set Up Your Budget Categories",
-      description:
-        "Customize your income and expense categories to match your financial needs.",
+      title: t("landingpage.howitworks2_title"),
+      description: t("landingpage.howitworks2_description"),
     },
     {
       number: "03",
-      title: "Add Your Transactions",
-      description:
-        "Record your financial transactions directly through our intuitive interface.",
+      title: t("landingpage.howitworks3_title"),
+      description: t("landingpage.howitworks3_description"),
     },
     {
       number: "04",
-      title: "Data Stored in Your Sheet",
-      description:
-        "All your data is written directly to your Google Sheet, not our servers.",
+      title: t("landingpage.howitworks4_title"),
+      description: t("landingpage.howitworks4_description"),
     },
   ];
 
