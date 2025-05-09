@@ -53,14 +53,19 @@
         "setup_description4": "No sheet2api, crie uma nova API e cole o link de compartilhamento do Planilhas Google.",
         "setup_description5": "Após a criação da sua API, o sheet2api fornecerá um link para a API. Copie este link e cole-o abaixo.",
         "setup_description6": "Cole o link da API do sheet2api abaixo para conectar sua Planilha Google ao BudgetManagement.",
-        "setup_button1":"Abra o Planilhas Google",
-        "setup_button2":"Cadastre-se no sheet2api",
-        "setup_button3":"Continuar para o painel",
-        "setup_button4":"Conectando...",
+        "setup_button1": "Abra o Planilhas Google",
+        "setup_button2": "Cadastre-se no sheet2api",
+        "setup_button3": "Continuar para o painel",
+        "setup_button4": "Conectando...",
         "setup_subtitle1": "Estrutura de planilha recomendada:",
         "setup_subtitle2": "O link da sua API deve ser parecido com:",
-        "setup_subtitle_description1":"Crie uma planilha chamada 'Budget Management' com colunas:  key, description, category, amount, day, month, year, type",
-        "setup_subtitle_description2":"Na sua Planilha Google, clique no botão 'Compartilhar' no canto superior direito, adicione o endereço de e-mail sheet2api (google@sheet2api.com) e conceda a ele acesso de 'Editor'.",
-        "setup_subtitle_description3":"Siga o assistente sheet2api para conectar sua Planilha Google. Certifique-se de selecionar todas as planilhas que deseja acessar pela API."
+        "setup_subtitle_description1": "Crie uma planilha chamada 'Budget Management' com colunas:  key, description, category, amount, day, month, year, type",
+        "setup_subtitle_description2": "Na sua Planilha Google, clique no botão 'Compartilhar' no canto superior direito, adicione o endereço de e-mail sheet2api (google@sheet2api.com) e conceda a ele acesso de 'Editor'.",
+        "setup_subtitle_description3": "Siga o assistente sheet2api para conectar sua Planilha Google. Certifique-se de selecionar todas as planilhas que deseja acessar pela API."
+    },
+    "navbar": {
+        "home": "Página Inicial",
+        "dashboard": "Painel",
+        "setup": "Configurar"
     }
 }

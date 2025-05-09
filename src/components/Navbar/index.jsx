@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 function Navbar() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  const { t } = useTranslation();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -29,15 +30,19 @@ function Navbar() {
   };
 
   const navItems = [
-    { href: "/", label: "Home", icon: <Home className="h-4 w-4 mr-2" /> },
+    {
+      href: "/",
+      label: t("navbar.home"),
+      icon: <Home className="h-4 w-4 mr-2" />,
+    },
     {
       href: "/dashboard",
-      label: "Dashboard",
+      label: t("navbar.dashboard"),
       icon: <Settings className="h-4 w-4 mr-2" />,
     },
     {
       href: "/setup",
-      label: "Setup",
+      label: t("navbar.setup"),
       icon: <Settings className="h-4 w-4 mr-2" />,
     },
   ];
