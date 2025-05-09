@@ -36,5 +36,31 @@
         "termsofservice": "Terms of Service",
         "contact": "Contact",
         "rights": "BudgetManagement. All rights reserved."
+    },
+    "setuppage": {
+        "title": "Connect Your Google Sheet",
+        "description": "Follow these steps to connect your Google Sheet to BudgetManagement. This ensures your data stays in your control.",
+        "backtohome": "Back to Home",
+        "setup_title1": "Create a Google Sheet",
+        "setup_title2": "Create a sheet2api Account",
+        "setup_title3": "Share Your Google Sheet",
+        "setup_title4": "Connect in sheet2api",
+        "setup_title5": "Copy Your API Link",
+        "setup_title6": "Final Step: Enter Your API Link",
+        "setup_description1": "Create a new Google Sheet and name it 'Budget Management' or any name you prefer.",
+        "setup_description2": "Sign up for a free account on sheet2api. This service will help us connect to your Google Sheet securely.",
+        "setup_description3": "Share your Google Sheet with the email address provided by sheet2api during setup.",
+        "setup_description4": "In sheet2api, create a new API and paste your Google Sheet sharing link.",
+        "setup_description5": "Once your API is created, sheet2api will provide you with an API link. Copy this link and paste it below.",
+        "setup_description6": "Paste the API link from sheet2api below to connect your Google Sheet to BudgetManagement.",
+        "setup_button1":"Open Google Sheets",
+        "setup_button2":"Sign up on sheet2api",
+        "setup_button3":"Continue to Dashboard",
+        "setup_button4":"Connecting...",
+        "setup_subtitle1": "Recommended Sheet Structure:",
+        "setup_subtitle2": "Your API link should look something like:",
+        "setup_subtitle_description1":"Create a sheet named 'Budget Management' with columns: key, description, category, amount, day, month, year, type",
+        "setup_subtitle_description2":"In your Google Sheet, click the 'Share' button in the top right corner, then add the sheet2api email address (google@sheet2api.com) and give it 'Editor' access.",
+        "setup_subtitle_description3":"Follow the sheet2api wizard to connect your Google Sheet. Make sure to select all the sheets you want to access through the API."
     }
 }

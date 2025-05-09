@@ -36,5 +36,31 @@
         "termsofservice": "Termos de Serviço",
         "contact": "Contato",
         "rights": "BudgetManagement. Todos os direitos reservados."
+    },
+    "setuppage": {
+        "title": "Conecte sua Planilha Google",
+        "description": "Siga estes passos para conectar sua Planilha Google ao BudgetManagement. Isso garante que seus dados permaneçam sob seu controle.",
+        "backtohome": "Voltar para Página Inicial",
+        "setup_title1": "Criar uma Planilha Google",
+        "setup_title2": "Criar uma conta sheet2api",
+        "setup_title3": "Compartilhe sua planilha do Google",
+        "setup_title4": "Conectar no sheet2api",
+        "setup_title5": "Copie seu link de API",
+        "setup_title6": "Etapa final: insira seu link de API",
+        "setup_description1": "Crie uma nova Planilha Google e dê a ela o nome 'Budget Management' ou qualquer nome que preferir.",
+        "setup_description2": "Crie uma conta gratuita no sheet2api. Este serviço nos ajudará a conectar sua Planilha Google com segurança.",
+        "setup_description3": "Compartilhe sua Planilha Google com o endereço de e-mail fornecido pelo sheet2api durante a configuração.",
+        "setup_description4": "No sheet2api, crie uma nova API e cole o link de compartilhamento do Planilhas Google.",
+        "setup_description5": "Após a criação da sua API, o sheet2api fornecerá um link para a API. Copie este link e cole-o abaixo.",
+        "setup_description6": "Cole o link da API do sheet2api abaixo para conectar sua Planilha Google ao BudgetManagement.",
+        "setup_button1":"Abra o Planilhas Google",
+        "setup_button2":"Cadastre-se no sheet2api",
+        "setup_button3":"Continuar para o painel",
+        "setup_button4":"Conectando...",
+        "setup_subtitle1": "Estrutura de planilha recomendada:",
+        "setup_subtitle2": "O link da sua API deve ser parecido com:",
+        "setup_subtitle_description1":"Crie uma planilha chamada 'Budget Management' com colunas:  key, description, category, amount, day, month, year, type",
+        "setup_subtitle_description2":"Na sua Planilha Google, clique no botão 'Compartilhar' no canto superior direito, adicione o endereço de e-mail sheet2api (google@sheet2api.com) e conceda a ele acesso de 'Editor'.",
+        "setup_subtitle_description3":"Siga o assistente sheet2api para conectar sua Planilha Google. Certifique-se de selecionar todas as planilhas que deseja acessar pela API."
     }
 }
