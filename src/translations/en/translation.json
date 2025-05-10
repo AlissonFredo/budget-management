@@ -67,5 +67,22 @@
         "home": "Home",
         "dashboard": "Dashboard",
         "setup": "Setup"
+    },
+    "dashboard": {
+        "title": "Budget Management",
+        "subtitle": "Track your income and expenses with our intuitive budget management dashboard",
+        "cardtitle1": "Total Income",
+        "cardtitle2": "Total Expenses",
+        "cardtitle3": "Current Balance",
+        "cardsubtitle1": "Monthly earnings",
+        "cardsubtitle2": "Monthly spending",
+        "cardsubtitle3": "this period",
+        "cardsubtitle3_1": "Savings",
+        "cardsubtitle3_2": "Deficit",
+        "incomebalancemessage1": "Your spending exceeds 100%... out of nowhere",
+        "incomebalancemessage2": "You're spending",
+        "incomebalancemessage2_1": "more than your income",
+        "incomebalancemessage3": "You're saving",
+        "incomebalancemessage3_1": "of your income"
     }
 }

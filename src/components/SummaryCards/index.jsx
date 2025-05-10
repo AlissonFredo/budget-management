@@ -1,4 +1,10 @@
-import { ArrowDownCircle, ArrowUpCircle, TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  TrendingDown,
+  TrendingUp,
+  Wallet,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -7,8 +13,11 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Progress } from "../ui/progress";
+import { useTranslation } from "react-i18next";
 
 function SummaryCards({ incoming, outgoing }) {
+  const { t } = useTranslation();
+
   const currentBalance = incoming - outgoing;
 
   const spendingPercentage =
@@ -18,15 +27,19 @@ function SummaryCards({ incoming, outgoing }) {
     if (currentBalance >= 0) {
       const percentage =
         currentBalance != 0 ? Math.round((currentBalance / incoming) * 100) : 0;
-      return `You're saving ${percentage}% of your income`;
+      return `${t("dashboard.incomebalancemessage3")} ${percentage}% ${t(
+        "dashboard.incomebalancemessage3_1"
+      )}`;
     }
 
     if (incoming == 0) {
-      return "Your spending exceeds 100%... out of nowhere";
+      return t("dashboard.incomebalancemessage1");
     }
 
     const percentage = Math.round((Math.abs(currentBalance) / incoming) * 100);
-    return `You're spending ${percentage}% more than your income`;
+    return `${t("dashboard.incomebalancemessage2")} ${percentage}% ${t(
+      "dashboard.incomebalancemessage2_1"
+    )}`;
   };
 
   return (
@@ -34,13 +47,16 @@ function SummaryCards({ incoming, outgoing }) {
       <Card className="overflow-hidden border-t-4 border-t-emerald-500">
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-medium">Total Income</CardTitle>
+            <CardTitle className="text-lg font-medium">
+              {t("dashboard.cardtitle1")}
+            </CardTitle>
             <div className="rounded-full bg-emerald-100 p-2 dark:bg-emerald-900/20">
               <ArrowUpCircle className="h-5 w-5 text-emerald-500" />
             </div>
           </div>
           <CardDescription className="flex items-center text-sm text-muted-foreground">
-            <TrendingUp className="mr-1 h-3 w-3" /> Monthly earnings
+            <TrendingUp className="mr-1 h-3 w-3" />{" "}
+            {t("dashboard.cardsubtitle1")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -60,14 +76,15 @@ function SummaryCards({ incoming, outgoing }) {
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-medium">
-              Total Expenses
+              {t("dashboard.cardtitle2")}
             </CardTitle>
             <div className="rounded-full bg-rose-100 p-2 dark:bg-rose-900/20">
               <ArrowDownCircle className="h-5 w-5 text-rose-500" />
             </div>
           </div>
           <CardDescription className="flex items-center text-sm text-muted-foreground">
-            <TrendingDown className="mr-1 h-3 w-3" /> Monthly spending
+            <TrendingDown className="mr-1 h-3 w-3" />{" "}
+            {t("dashboard.cardsubtitle2")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -91,7 +108,7 @@ function SummaryCards({ incoming, outgoing }) {
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg font-medium">
-              Current Balance
+              {t("dashboard.cardtitle3")}
             </CardTitle>
             <div
               className={`rounded-full p-2 ${
@@ -108,7 +125,11 @@ function SummaryCards({ incoming, outgoing }) {
             </div>
           </div>
           <CardDescription className="flex items-center text-sm text-muted-foreground">
-            {currentBalance >= 0 ? "Savings" : "Deficit"} this period
+            {`${
+              currentBalance >= 0
+                ? t("dashboard.cardsubtitle3_1")
+                : t("dashboard.cardsubtitle3_2")
+            } ${t("dashboard.cardsubtitle3")}`}
           </CardDescription>
         </CardHeader>
         <CardContent>

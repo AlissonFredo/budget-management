@@ -67,5 +67,22 @@
         "home": "Página Inicial",
         "dashboard": "Painel",
         "setup": "Configurar"
+    },
+    "dashboard": {
+        "title": "Gestão de Orçamento",
+        "subtitle": "Acompanhe suas receitas e despesas com nosso painel intuitivo de gerenciamento de orçamento",
+        "cardtitle1": "Renda Total",
+        "cardtitle2": "Despesas Totais",
+        "cardtitle3": "Saldo atual",
+        "cardsubtitle1": "Ganhos mensais",
+        "cardsubtitle2": "Gastos mensais",
+        "cardsubtitle3": "neste período",
+        "cardsubtitle3_1": "Poupança",
+        "cardsubtitle3_2": "Déficit",
+        "incomebalancemessage1": "Sua despesa ultrapassa 100%... do nada",
+        "incomebalancemessage2": "Você está gastando",
+        "incomebalancemessage2_1": "a mais do que a sua renda",
+        "incomebalancemessage3": "Você está economizando",
+        "incomebalancemessage3_1": "da sua renda"
     }
 }
