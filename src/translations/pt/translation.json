@@ -113,5 +113,27 @@
         "category10": "Compras",
         "category11": "Saúde",
         "category12": "Outros"
+    },
+    "filter": {
+        "title": "Filtro",
+        "description": "Ver transações por mês",
+        "button1": "Todos os tempos",
+        "button2": "Este mês",
+        "label1": "Estatísticas rápidas",
+        "label2": "Transações",
+        "month0": "Todos os Meses",
+        "month1": "Janeiro",
+        "month2": "Fevereiro",
+        "month3": "Março",
+        "month4": "Abril",
+        "month5": "Maio",
+        "month6": "Junho",
+        "month7": "Julho",
+        "month8": "Agosto",
+        "month9": "Setembro",
+        "month10": "Outubro",
+        "month11": "Novembro",
+        "month12": "Dezembro",
+        "year0": "Todos os anos"
     }
 }

@@ -113,5 +113,27 @@
         "category10": "Shopping",
         "category11": "Health",
         "category12": "Other"
+    },
+    "filter": {
+        "title": "Filter",
+        "description": "View transactions by month",
+        "button1": "All Time",
+        "button2": "This Month",
+        "label1": "Quick Stats",
+        "label2": "Transactions",
+        "month0": "All Months",
+        "month1": "January",
+        "month2": "February",
+        "month3": "March",
+        "month4": "April",
+        "month5": "May",
+        "month6": "June",
+        "month7": "July",
+        "month8": "August",
+        "month9": "September",
+        "month10": "October",
+        "month11": "November",
+        "month12": "December",
+        "year0": "All Years"
     }
 }

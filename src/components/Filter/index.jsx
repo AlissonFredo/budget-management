@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 function Filter({
   totalTransactions,
@@ -22,20 +23,22 @@ function Filter({
   selectedYears,
   onSelectedYears,
 }) {
+  const { t } = useTranslation();
+
   const months = [
-    { value: "all", label: "All Months" },
-    { value: "january", label: "January" },
-    { value: "february", label: "February" },
-    { value: "march", label: "March" },
-    { value: "april", label: "April" },
-    { value: "may", label: "May" },
-    { value: "june", label: "June" },
-    { value: "july", label: "July" },
-    { value: "august", label: "August" },
-    { value: "september", label: "September" },
-    { value: "october", label: "October" },
-    { value: "november", label: "November" },
-    { value: "december", label: "December" },
+    { value: "all", label: t("filter.month0") },
+    { value: "january", label: t("filter.month1") },
+    { value: "february", label: t("filter.month2") },
+    { value: "march", label: t("filter.month3") },
+    { value: "april", label: t("filter.month4") },
+    { value: "may", label: t("filter.month5") },
+    { value: "june", label: t("filter.month6") },
+    { value: "july", label: t("filter.month7") },
+    { value: "august", label: t("filter.month8") },
+    { value: "september", label: t("filter.month9") },
+    { value: "october", label: t("filter.month10") },
+    { value: "november", label: t("filter.month11") },
+    { value: "december", label: t("filter.month12") },
   ];
 
   const currentYear = new Date().getFullYear();
@@ -43,7 +46,7 @@ function Filter({
   const endYear = currentYear + 10;
 
   const years = [
-    { value: "all", label: "All Years" },
+    { value: "all", label: t("filter.year0") },
     ...Array.from({ length: endYear - startYear + 1 }, (_, i) => {
       const year = startYear + i;
       return { value: year.toString(), label: year.toString() };
@@ -57,8 +60,8 @@ function Filter({
   return (
     <Card className="md:col-span-1">
       <CardHeader>
-        <CardTitle className="text-2xl">Filter</CardTitle>
-        <CardDescription>View transactions by month</CardDescription>
+        <CardTitle className="text-2xl"> {t("filter.title")}</CardTitle>
+        <CardDescription>{t("filter.description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -103,23 +106,23 @@ function Filter({
               className="w-full cursor-pointer"
               onClick={() => onSelectMonth("all")}
             >
-              All Time
+              {t("filter.button1")}
             </Button>
             <Button
               variant="outline"
               className="w-full cursor-pointer"
               onClick={() => onSelectMonth(currentMonth)}
             >
-              This Month
+              {t("filter.button2")}
             </Button>
           </div>
 
           <Card className="bg-muted/50 border-dashed">
             <CardContent className="p-4">
-              <div className="text-sm font-medium">Quick Stats</div>
+              <div className="text-sm font-medium">{t("filter.label1")}</div>
               <div className="mt-2 text-xs text-muted-foreground">
                 <div className="flex justify-between py-1">
-                  <span>Transactions</span>
+                  <span>{t("filter.label2")}</span>
                   <span className="font-medium">{totalTransactions}</span>
                 </div>
                 {/* <div className="flex justify-between py-1 border-t">
