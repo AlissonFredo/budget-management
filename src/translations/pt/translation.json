@@ -135,5 +135,16 @@
         "month11": "Novembro",
         "month12": "Dezembro",
         "year0": "Todos os anos"
+    },
+    "list": {
+        "description": "transações encontradas",
+        "head1": "Descrição",
+        "head2": "Data",
+        "head3": "Categoria",
+        "head4": "Valor",
+        "head5": "Ações",
+        "label": "Excluir",
+        "notfound_label": "Nenhuma transação encontrada",
+        "notfound_description": "Tente selecionar um mês diferente ou adicionar novas transações."
     }
 }

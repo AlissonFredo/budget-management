@@ -135,5 +135,16 @@
         "month11": "November",
         "month12": "December",
         "year0": "All Years"
+    },
+    "list": {
+        "description": "transactions found",
+        "head1": "Description",
+        "head2": "Date",
+        "head3": "Category",
+        "head4": "Amount",
+        "head5": "Actions",
+        "label": "Delete",
+        "notfound_label": "No transactions found",
+        "notfound_description": "Try selecting a different month or adding new transactions."
     }
 }
