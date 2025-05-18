@@ -146,5 +146,18 @@
         "label": "Delete",
         "notfound_label": "No transactions found",
         "notfound_description": "Try selecting a different month or adding new transactions."
-    }
+    },
+    "barchart": {
+        "title": "Incomes & Expenses (Yearly)",
+        "description": "Annual comparison between income and expenses",
+        "income": "Incomes",
+        "expenses": "Expenses"
+    },
+    "pieChart": {
+        "title": "Expenses by category",
+        "description": "Distribution of expenses by category."
+    },
+    "subtitle_table_incomes": "Income summary for the year, organized by category",
+    "subtitle_table_expenses": "Expenses summary for the year, organized by category",
+    "average": "Average"
 }

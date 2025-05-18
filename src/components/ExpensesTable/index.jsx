@@ -16,8 +16,30 @@ import {
 } from "../ui/table";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
+import { useTranslation } from "react-i18next";
 
 function ExpensesTable() {
+  const { t } = useTranslation();
+
+  const categories = [
+    { value: "Salary", label: t("modal_add_transaction.category1") },
+    { value: "Freelance", label: t("modal_add_transaction.category2") },
+    { value: "Investment", label: t("modal_add_transaction.category3") },
+    { value: "Housing", label: t("modal_add_transaction.category4") },
+    { value: "Food", label: t("modal_add_transaction.category5") },
+    { value: "Utilities", label: t("modal_add_transaction.category6") },
+    { value: "Dining", label: t("modal_add_transaction.category7") },
+    { value: "Transportation", label: t("modal_add_transaction.category8") },
+    { value: "Entertainment", label: t("modal_add_transaction.category9") },
+    { value: "Shopping", label: t("modal_add_transaction.category10") },
+    { value: "Health", label: t("modal_add_transaction.category11") },
+    { value: "Other", label: t("modal_add_transaction.category12") },
+  ];
+
+  const getCategoryLabel = (category) => {
+    return categories.find((value) => value.value == category).label;
+  };
+
   const mapColumns = [
     "category",
     "jan",
@@ -108,10 +130,8 @@ function ExpensesTable() {
       <CardHeader className="border-b">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div>
-            <CardTitle className="text-2xl">Expenses</CardTitle>
-            <CardDescription>
-              Expenses summary for the year, organized by category
-            </CardDescription>
+            <CardTitle className="text-2xl">{t("barchart.expenses")}</CardTitle>
+            <CardDescription>{t("subtitle_table_expenses")}</CardDescription>
           </div>
         </div>
       </CardHeader>
@@ -122,9 +142,21 @@ function ExpensesTable() {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                {mapColumns.map((column) => (
-                  <TableHead>{capitalizeFirstLetter(column)}</TableHead>
-                ))}
+                {mapColumns.map((column, key) => {
+                  let newColumn = column;
+
+                  if (newColumn == "category") {
+                    newColumn = t("list.head3");
+                  } else if (newColumn == "average") {
+                    newColumn = t("average");
+                  }
+
+                  return (
+                    <TableHead key={key}>
+                      {capitalizeFirstLetter(newColumn)}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -135,7 +167,9 @@ function ExpensesTable() {
                       key={keyColumn}
                       className="text-sm text-muted-foreground"
                     >
-                      {value[column]}
+                      {column != "category"
+                        ? value[column]
+                        : getCategoryLabel(value[column])}
                     </TableCell>
                   ))}
                 </TableRow>
