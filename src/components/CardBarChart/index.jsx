@@ -24,8 +24,11 @@ import {
 } from "../ui/select";
 import { CalendarIcon } from "lucide-react";
 import Loading from "../Loading";
+import { useTranslation } from "react-i18next";
 
 function CardBarChart() {
+  const { t } = useTranslation();
+
   const currentYear = new Date().getFullYear();
   const startYear = 2000;
   const endYear = currentYear + 10;
@@ -117,11 +120,11 @@ function CardBarChart() {
 
   const chartConfig = {
     income: {
-      label: "Income",
+      label: t("barchart.income"),
       color: "hsl(var(--chart-6))",
     },
     outgoing: {
-      label: "Expenses",
+      label: t("barchart.expenses"),
       color: "hsl(var(--chart-7))",
     },
   };
@@ -131,12 +134,8 @@ function CardBarChart() {
       <CardHeader className="border-b">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div>
-            <CardTitle className="text-2xl">
-              Incomes & Expenses (Yearly)
-            </CardTitle>
-            <CardDescription>
-              Annual comparison between income and expenses
-            </CardDescription>
+            <CardTitle className="text-2xl">{t("barchart.title")}</CardTitle>
+            <CardDescription>{t("barchart.description")}</CardDescription>
           </div>
           <div>
             <Select

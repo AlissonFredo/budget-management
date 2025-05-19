@@ -20,6 +20,7 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 import Loading from "../Loading";
+import { useTranslation } from "react-i18next";
 
 function ListTransactions({
   transactions,
@@ -43,6 +44,8 @@ function ListTransactions({
 export default ListTransactions;
 
 function TableTransaction({ transactions, handleRemoveTransaction }) {
+  const { t } = useTranslation();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [idRemove, setIdRemove] = useState(null);
@@ -52,6 +55,25 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
   const totalPages = Math.ceil(transactions.length / itemsPerPage);
   const start = (currentPage - 1) * itemsPerPage;
   const paginatedTransactions = transactions.slice(start, start + itemsPerPage);
+
+  const categories = [
+    { value: "Salary", label: t("modal_add_transaction.category1") },
+    { value: "Freelance", label: t("modal_add_transaction.category2") },
+    { value: "Investment", label: t("modal_add_transaction.category3") },
+    { value: "Housing", label: t("modal_add_transaction.category4") },
+    { value: "Food", label: t("modal_add_transaction.category5") },
+    { value: "Utilities", label: t("modal_add_transaction.category6") },
+    { value: "Dining", label: t("modal_add_transaction.category7") },
+    { value: "Transportation", label: t("modal_add_transaction.category8") },
+    { value: "Entertainment", label: t("modal_add_transaction.category9") },
+    { value: "Shopping", label: t("modal_add_transaction.category10") },
+    { value: "Health", label: t("modal_add_transaction.category11") },
+    { value: "Other", label: t("modal_add_transaction.category12") },
+  ];
+
+  const getCategoryLabel = (category) => {
+    return categories.find((value) => value.value == category).label;
+  };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
@@ -126,11 +148,11 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="w-[250px]">Description</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-            <TableHead className="w-[80px]">Actions</TableHead>
+            <TableHead className="w-[250px]">{t("list.head1")}</TableHead>
+            <TableHead>{t("list.head2")}</TableHead>
+            <TableHead>{t("list.head3")}</TableHead>
+            <TableHead className="text-right">{t("list.head4")}</TableHead>
+            <TableHead className="w-[80px]">{t("list.head5")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -162,7 +184,7 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
               </TableCell>
               <TableCell>
                 <Badge className={`${getCategoryColor(transaction.category)}`}>
-                  {transaction.category}
+                  {getCategoryLabel(transaction.category)}
                 </Badge>
               </TableCell>
               <TableCell
@@ -186,7 +208,7 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
                     onClick={() => removeTransaction(transaction.key)}
                   >
                     <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-                    <span className="sr-only">Delete</span>
+                    <span className="sr-only">{t("list.label")}</span>
                   </Button>
                 )}
               </TableCell>
@@ -229,12 +251,14 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
 }
 
 function TransactionsNotFaund() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-      <h3 className="text-lg font-medium">No transactions found</h3>
+      <h3 className="text-lg font-medium">{t("list.notfound_label")}</h3>
       <p className="text-sm text-muted-foreground text-center mt-1">
-        Try selecting a different month or adding new transactions.
+        {t("list.notfound_description")}
       </p>
     </div>
   );

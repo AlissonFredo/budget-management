@@ -16,8 +16,49 @@ import {
 } from "../ui/table";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
+import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Calendar, CalendarIcon } from "lucide-react";
 
 function ExpensesTable() {
+  const { t } = useTranslation();
+
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000;
+  const endYear = currentYear + 10;
+
+  const [selectedYears, setSelectedYears] = useState(currentYear);
+
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => {
+    const year = startYear + i;
+    return { value: year.toString(), label: year.toString() };
+  }).reverse();
+
+  const categories = [
+    { value: "Salary", label: t("modal_add_transaction.category1") },
+    { value: "Freelance", label: t("modal_add_transaction.category2") },
+    { value: "Investment", label: t("modal_add_transaction.category3") },
+    { value: "Housing", label: t("modal_add_transaction.category4") },
+    { value: "Food", label: t("modal_add_transaction.category5") },
+    { value: "Utilities", label: t("modal_add_transaction.category6") },
+    { value: "Dining", label: t("modal_add_transaction.category7") },
+    { value: "Transportation", label: t("modal_add_transaction.category8") },
+    { value: "Entertainment", label: t("modal_add_transaction.category9") },
+    { value: "Shopping", label: t("modal_add_transaction.category10") },
+    { value: "Health", label: t("modal_add_transaction.category11") },
+    { value: "Other", label: t("modal_add_transaction.category12") },
+  ];
+
+  const getCategoryLabel = (category) => {
+    return categories.find((value) => value.value == category).label;
+  };
+
   const mapColumns = [
     "category",
     "jan",
@@ -47,7 +88,11 @@ function ExpensesTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const transactions = await transactionsSearch("", "2025", "outgoing");
+    const transactions = await transactionsSearch(
+      "",
+      selectedYears,
+      "outgoing"
+    );
 
     formatTransactionsToSummary(transactions);
 
@@ -101,30 +146,62 @@ function ExpensesTable() {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [selectedYears]);
 
   return (
     <Card className="md:col-span-4">
       <CardHeader className="border-b">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div>
-            <CardTitle className="text-2xl">Expenses</CardTitle>
-            <CardDescription>
-              Expenses summary for the year, organized by category
-            </CardDescription>
+            <CardTitle className="text-2xl">{t("barchart.expenses")}</CardTitle>
+            <CardDescription>{t("subtitle_table_expenses")}</CardDescription>
+          </div>
+          <div>
+            <Select
+              value={selectedYears.toString()}
+              onValueChange={(year) => setSelectedYears(year)}
+            >
+              <SelectTrigger className="w-full">
+                <div className="flex items-center">
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Select year" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((year) => (
+                  <SelectItem key={year.value} value={year.value}>
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (
           <Loading />
+        ) : summary.length == 0 ? (
+          <TransactionsNotFaund />
         ) : (
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                {mapColumns.map((column) => (
-                  <TableHead>{capitalizeFirstLetter(column)}</TableHead>
-                ))}
+                {mapColumns.map((column, key) => {
+                  let newColumn = column;
+
+                  if (newColumn == "category") {
+                    newColumn = t("list.head3");
+                  } else if (newColumn == "average") {
+                    newColumn = t("average");
+                  }
+
+                  return (
+                    <TableHead key={key}>
+                      {capitalizeFirstLetter(newColumn)}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -135,7 +212,9 @@ function ExpensesTable() {
                       key={keyColumn}
                       className="text-sm text-muted-foreground"
                     >
-                      {value[column]}
+                      {column != "category"
+                        ? value[column]
+                        : getCategoryLabel(value[column])}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -145,6 +224,20 @@ function ExpensesTable() {
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function TransactionsNotFaund() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-col items-center justify-center py-12 px-4">
+      <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 className="text-lg font-medium">{t("list.notfound_label")}</h3>
+      <p className="text-sm text-muted-foreground text-center mt-1">
+        {t("notfound_description2")}
+      </p>
+    </div>
   );
 }
 

@@ -19,11 +19,14 @@ import CardPieChart from "@/components/CardPieChart";
 import { useNavigate } from "react-router";
 import IncomeTable from "@/components/IncomeTable";
 import ExpensesTable from "@/components/ExpensesTable";
+import { useTranslation } from "react-i18next";
 
 function Dashboard() {
   const navigate = useNavigate();
   const sheet2apiLink = localStorage.getItem("sheet2apiLink");
   if (sheet2apiLink == null) navigate("/setup");
+
+  const { t } = useTranslation();
 
   const [transactions, setTransactions] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState("all");
@@ -73,9 +76,9 @@ function Dashboard() {
           <CardHeader className="border-b">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
               <div>
-                <CardTitle className="text-2xl">Transactions</CardTitle>
+                <CardTitle className="text-2xl">{t("filter.label2")}</CardTitle>
                 <CardDescription>
-                  {transactions.length} transactions found
+                  {transactions.length} {t("list.description")}
                 </CardDescription>
               </div>
               <div className="flex items-center gap-4 mt-4 sm:mt-0">

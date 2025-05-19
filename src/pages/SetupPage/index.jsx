@@ -16,12 +16,14 @@ import { Link, useNavigate } from "react-router";
 import Image1 from "../../assets/image1.png";
 import Image2 from "../../assets/image2.png";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function SetupPage() {
   const [apiLink, setApiLink] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const sheet2apiLink = localStorage.getItem("sheet2apiLink");
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (sheet2apiLink != null) {
@@ -53,36 +55,27 @@ function SetupPage() {
               className="flex items-center text-muted-foreground hover:text-foreground mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              {t("setuppage.backtohome")}
             </Link>
-            <h1 className="text-3xl font-bold mb-2">
-              Connect Your Google Sheet
-            </h1>
+            <h1 className="text-3xl font-bold mb-2">{t("setuppage.title")}</h1>
             <p className="text-muted-foreground">
-              Follow these steps to connect your Google Sheet to BudgetSafe.
-              This ensures your data stays in your control.
+              {t("setuppage.description")}
             </p>
           </div>
 
           <div className="space-y-6 mb-10">
             <StepCard
               number={1}
-              title="Create a Google Sheet"
+              title={t("setuppage.setup_title1")}
               icon={<FileSpreadsheet className="h-10 w-10 text-emerald-600" />}
             >
-              <p className="mb-4">
-                Create a new Google Sheet and name it "Budget Management" or any
-                name you prefer.
-              </p>
+              <p className="mb-4">{t("setuppage.setup_description1")}</p>
               <div className="bg-muted p-4 rounded-md">
                 <p className="text-sm font-medium mb-2">
-                  Recommended Sheet Structure:
+                  {t("setuppage.setup_subtitle1")}
                 </p>
                 <ul className="text-sm space-y-1 text-muted-foreground">
-                  <li>
-                    • Create a sheet named "Budget Management" with columns:
-                    key, description, category, amount, day, month, year, type
-                  </li>
+                  <li>• {t("setuppage.setup_subtitle_description1")}</li>
                 </ul>
               </div>
               <Button variant="outline" className="mt-4" asChild>
@@ -92,7 +85,7 @@ function SetupPage() {
                   rel="noopener noreferrer"
                   className="flex items-center"
                 >
-                  Open Google Sheets
+                  {t("setuppage.setup_button1")}
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </a>
               </Button>
@@ -100,13 +93,10 @@ function SetupPage() {
 
             <StepCard
               number={2}
-              title="Create a sheet2api Account"
+              title={t("setuppage.setup_title2")}
               icon={<User className="h-10 w-10 text-emerald-600" />}
             >
-              <p className="mb-4">
-                Sign up for a free account on sheet2api. This service will help
-                us connect to your Google Sheet securely.
-              </p>
+              <p className="mb-4">{t("setuppage.setup_description2")}</p>
               <Button variant="outline" asChild>
                 <a
                   href="https://sheet2api.com/sign-up/"
@@ -114,7 +104,7 @@ function SetupPage() {
                   rel="noopener noreferrer"
                   className="flex items-center"
                 >
-                  Sign up on sheet2api
+                  {t("setuppage.setup_button2")}
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </a>
               </Button>
@@ -122,18 +112,13 @@ function SetupPage() {
 
             <StepCard
               number={3}
-              title="Share Your Google Sheet"
+              title={t("setuppage.setup_title3")}
               icon={<Share2 className="h-10 w-10 text-emerald-600" />}
             >
-              <p className="mb-4">
-                Share your Google Sheet with the email address provided by
-                sheet2api during setup.
-              </p>
+              <p className="mb-4">{t("setuppage.setup_description3")}</p>
               <div className="bg-muted p-4 rounded-md mb-4">
                 <p className="text-sm">
-                  In your Google Sheet, click the "Share" button in the top
-                  right corner, then add the sheet2api email address
-                  (google@sheet2api.com) and give it "Editor" access.
+                  {t("setuppage.setup_subtitle_description2")}
                 </p>
               </div>
               <div className="rounded-md overflow-hidden border border-border">
@@ -147,18 +132,13 @@ function SetupPage() {
 
             <StepCard
               number={4}
-              title="Connect in sheet2api"
+              title={t("setuppage.setup_title4")}
               icon={<Link2 className="h-10 w-10 text-emerald-600" />}
             >
-              <p className="mb-4">
-                In sheet2api, create a new API and paste your Google Sheet
-                sharing link.
-              </p>
+              <p className="mb-4">{t("setuppage.setup_description4")}</p>
               <div className="bg-muted p-4 rounded-md mb-4">
                 <p className="text-sm">
-                  Follow the sheet2api wizard to connect your Google Sheet. Make
-                  sure to select all the sheets you want to access through the
-                  API.
+                  {t("setuppage.setup_subtitle_description3")}
                 </p>
               </div>
               <div className="rounded-md overflow-hidden border border-border">
@@ -172,16 +152,13 @@ function SetupPage() {
 
             <StepCard
               number={5}
-              title="Copy Your API Link"
+              title={t("setuppage.setup_title5")}
               icon={<Copy className="h-10 w-10 text-emerald-600" />}
             >
-              <p className="mb-4">
-                Once your API is created, sheet2api will provide you with an API
-                link. Copy this link and paste it below.
-              </p>
+              <p className="mb-4">{t("setuppage.setup_description5")}</p>
               <div className="bg-muted p-4 rounded-md">
                 <p className="text-sm font-medium mb-2">
-                  Your API link should look something like:
+                  {t("setuppage.setup_subtitle2")}
                 </p>
                 <p className="text-xs bg-background p-2 rounded">
                   https://sheet2api.com/v1/ FgXSaM7ZJQgM/ budget-management
@@ -195,11 +172,10 @@ function SetupPage() {
               <form>
                 <h3 className="text-xl font-bold mb-4 flex items-center">
                   <Check className="mr-2 h-5 w-5 text-emerald-600" />
-                  Final Step: Enter Your API Link
+                  {t("setuppage.setup_title6")}
                 </h3>
                 <p className="mb-4 text-muted-foreground">
-                  Paste the API link from sheet2api below to connect your Google
-                  Sheet to BudgetSafe.
+                  {t("setuppage.setup_description6")}
                 </p>
                 <div className="space-y-4">
                   <Input
@@ -212,11 +188,11 @@ function SetupPage() {
                     {isSubmitting ? (
                       <>
                         <span className="animate-spin mr-2">⏳</span>
-                        Connecting...
+                        {t("setuppage.setup_button4")}
                       </>
                     ) : (
                       <>
-                        Continue to Dashboard
+                        {t("setuppage.setup_button3")}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </>
                     )}

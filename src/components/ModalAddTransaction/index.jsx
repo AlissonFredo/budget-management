@@ -21,8 +21,11 @@ import {
 } from "../ui/select";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { transactionSubmit } from "@/service/transactionsService";
+import { useTranslation } from "react-i18next";
 
 function ModalAddTransaction({ handleNewTransaction }) {
+  const { t } = useTranslation();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -44,18 +47,18 @@ function ModalAddTransaction({ handleNewTransaction }) {
   });
 
   const categories = [
-    { value: "Salary", label: "Salary" },
-    { value: "Freelance", label: "Freelance" },
-    { value: "Investment", label: "Investment" },
-    { value: "Housing", label: "Housing" },
-    { value: "Food", label: "Food" },
-    { value: "Utilities", label: "Utilities" },
-    { value: "Dining", label: "Dining" },
-    { value: "Transportation", label: "Transportation" },
-    { value: "Entertainment", label: "Entertainment" },
-    { value: "Shopping", label: "Shopping" },
-    { value: "Health", label: "Health" },
-    { value: "Other", label: "Other" },
+    { value: "Salary", label: t("modal_add_transaction.category1") },
+    { value: "Freelance", label: t("modal_add_transaction.category2") },
+    { value: "Investment", label: t("modal_add_transaction.category3") },
+    { value: "Housing", label: t("modal_add_transaction.category4") },
+    { value: "Food", label: t("modal_add_transaction.category5") },
+    { value: "Utilities", label: t("modal_add_transaction.category6") },
+    { value: "Dining", label: t("modal_add_transaction.category7") },
+    { value: "Transportation", label: t("modal_add_transaction.category8") },
+    { value: "Entertainment", label: t("modal_add_transaction.category9") },
+    { value: "Shopping", label: t("modal_add_transaction.category10") },
+    { value: "Health", label: t("modal_add_transaction.category11") },
+    { value: "Other", label: t("modal_add_transaction.category12") },
   ];
 
   const handleSubmitTransaction = (event) => {
@@ -129,7 +132,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
         className="flex items-center gap-2 cursor-pointer"
       >
         <PlusCircle className="h-4 w-4" />
-        Add Transaction
+        {t("modal_add_transaction.button")}
       </Button>
 
       <Dialog
@@ -144,11 +147,10 @@ function ModalAddTransaction({ handleNewTransaction }) {
           <div>
             <DialogHeader>
               <DialogTitle className="text-2xl">
-                Add New Transaction
+                {t("modal_add_transaction.title")}
               </DialogTitle>
               <DialogDescription>
-                Fill in the details below to add a new transaction to your
-                budget.
+                {t("modal_add_transaction.description")}
               </DialogDescription>
             </DialogHeader>
 
@@ -159,11 +161,13 @@ function ModalAddTransaction({ handleNewTransaction }) {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
+                    <Label htmlFor="description">
+                      {t("modal_add_transaction.label1")}
+                    </Label>
                     <Input
                       disabled={isLoading}
                       id="description"
-                      placeholder="Enter transaction description"
+                      placeholder={t("modal_add_transaction.placeholder1")}
                       value={transaction.description}
                       onChange={(e) =>
                         setTransaction({
@@ -174,13 +178,15 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     />
                     {errors.description && (
                       <p className="text-rose-600 text-sm">
-                        This field is required
+                        {t("modal_add_transaction.field_required")}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
+                    <Label htmlFor="category">
+                      {t("modal_add_transaction.label2")}
+                    </Label>
                     <Select
                       disabled={isLoading}
                       value={transaction.category}
@@ -192,7 +198,9 @@ function ModalAddTransaction({ handleNewTransaction }) {
                       }
                     >
                       <SelectTrigger id="category" className="w-full">
-                        <SelectValue placeholder="Select category" />
+                        <SelectValue
+                          placeholder={t("modal_add_transaction.placeholder2")}
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((cat) => (
@@ -204,13 +212,15 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     </Select>
                     {errors.category && (
                       <p className="text-rose-600 text-sm">
-                        This field is required
+                        {t("modal_add_transaction.field_required")}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="amount">Amount</Label>
+                    <Label htmlFor="amount">
+                      {t("modal_add_transaction.label3")}
+                    </Label>
                     <Input
                       disabled={isLoading}
                       id="amount"
@@ -228,13 +238,13 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     />
                     {errors.amount && (
                       <p className="text-rose-600 text-sm">
-                        This field is required
+                        {t("modal_add_transaction.field_required")}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Transaction Type</Label>
+                    <Label>{t("modal_add_transaction.label4")}</Label>
                     <RadioGroup
                       value={transaction.type}
                       onValueChange={(e) =>
@@ -252,7 +262,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           htmlFor="incoming"
                           className="font-normal cursor-pointer"
                         >
-                          Incoming
+                          {t("modal_add_transaction.type1")}
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -261,19 +271,21 @@ function ModalAddTransaction({ handleNewTransaction }) {
                           htmlFor="outgoing"
                           className="font-normal cursor-pointer"
                         >
-                          Outgoing
+                          {t("modal_add_transaction.type2")}
                         </Label>
                       </div>
                     </RadioGroup>
                     {errors.type && (
                       <p className="text-rose-600 text-sm">
-                        This field is required
+                        {t("modal_add_transaction.field_required")}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="date">Date</Label>
+                    <Label htmlFor="date">
+                      {t("modal_add_transaction.label5")}
+                    </Label>
                     <div className="relative">
                       <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <input
@@ -292,7 +304,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     </div>
                     {errors.date && (
                       <p className="text-rose-600 text-sm">
-                        This field is required
+                        {t("modal_add_transaction.field_required")}
                       </p>
                     )}
                   </div>
@@ -308,16 +320,16 @@ function ModalAddTransaction({ handleNewTransaction }) {
                     reset();
                   }}
                 >
-                  Cancel
+                  {t("modal_add_transaction.button_cancel")}
                 </Button>
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? (
                     <div className="flex justify-center items-center">
                       <div className="mr-2 w-4 h-4 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Loading...</span>
+                      <span>{t("modal_add_transaction.loading")}</span>
                     </div>
                   ) : (
-                    <span>Add Transaction</span>
+                    <span>{t("modal_add_transaction.button")}</span>
                   )}
                 </Button>
               </DialogFooter>
