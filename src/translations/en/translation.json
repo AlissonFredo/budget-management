@@ -159,5 +159,6 @@
     },
     "subtitle_table_incomes": "Income summary for the year, organized by category",
     "subtitle_table_expenses": "Expenses summary for the year, organized by category",
-    "average": "Average"
+    "average": "Average",
+    "notfound_description2": "Try selecting a different year."
 }

@@ -159,5 +159,6 @@
     },
     "subtitle_table_incomes": "Resumo da receita do ano, organizado por categoria",
     "subtitle_table_expenses": "Resumo das despesas do ano, organizadas por categoria",
-    "average": "Média"
+    "average": "Média",
+    "notfound_description2": "Tente selecionar um ano diferente."
 }
