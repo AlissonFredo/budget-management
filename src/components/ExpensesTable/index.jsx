@@ -17,9 +17,28 @@ import {
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Calendar, CalendarIcon } from "lucide-react";
 
 function ExpensesTable() {
   const { t } = useTranslation();
+
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000;
+  const endYear = currentYear + 10;
+
+  const [selectedYears, setSelectedYears] = useState(currentYear);
+
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => {
+    const year = startYear + i;
+    return { value: year.toString(), label: year.toString() };
+  }).reverse();
 
   const categories = [
     { value: "Salary", label: t("modal_add_transaction.category1") },
@@ -69,7 +88,11 @@ function ExpensesTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const transactions = await transactionsSearch("", "2025", "outgoing");
+    const transactions = await transactionsSearch(
+      "",
+      selectedYears,
+      "outgoing"
+    );
 
     formatTransactionsToSummary(transactions);
 
@@ -123,7 +146,7 @@ function ExpensesTable() {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [selectedYears]);
 
   return (
     <Card className="md:col-span-4">
@@ -133,11 +156,33 @@ function ExpensesTable() {
             <CardTitle className="text-2xl">{t("barchart.expenses")}</CardTitle>
             <CardDescription>{t("subtitle_table_expenses")}</CardDescription>
           </div>
+          <div>
+            <Select
+              value={selectedYears.toString()}
+              onValueChange={(year) => setSelectedYears(year)}
+            >
+              <SelectTrigger className="w-full">
+                <div className="flex items-center">
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Select year" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((year) => (
+                  <SelectItem key={year.value} value={year.value}>
+                    {year.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (
           <Loading />
+        ) : summary.length == 0 ? (
+          <TransactionsNotFaund />
         ) : (
           <Table>
             <TableHeader>
@@ -179,6 +224,20 @@ function ExpensesTable() {
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function TransactionsNotFaund() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-col items-center justify-center py-12 px-4">
+      <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 className="text-lg font-medium">{t("list.notfound_label")}</h3>
+      <p className="text-sm text-muted-foreground text-center mt-1">
+        {t("notfound_description2")}
+      </p>
+    </div>
   );
 }
 
