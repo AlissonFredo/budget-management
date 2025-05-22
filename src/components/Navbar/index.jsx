@@ -1,33 +1,26 @@
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Globe, Home, Menu, Settings, Shield, X } from "lucide-react";
+import { Globe, Home, Menu, Settings, Shield } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 function Navbar() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
-  const { t } = useTranslation();
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const languages = [
     { code: "en", name: "English" },
     { code: "pt", name: "Português" },
   ];
-
-  const getCurrentLanguageName = () => {
-    return (
-      languages.find((lang) => lang.code === currentLanguage)?.name || "English"
-    );
-  };
 
   const navItems = [
     {
@@ -64,9 +57,7 @@ function Navbar() {
             <Link
               key={item.href}
               to={item.href}
-              className={
-                "text-sm font-medium transition-colors hover:text-foreground/80 flex items-center text-foreground"
-              }
+              className="text-sm font-medium transition-colors hover:text-foreground/80 flex items-center text-foreground"
             >
               {item.icon}
               {item.label}
@@ -75,29 +66,24 @@ function Navbar() {
         </nav>
 
         <div className="flex items-center justify-end gap-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 gap-1">
-                <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline-block">
-                  {getCurrentLanguageName()}
-                </span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+          <Select
+            value={currentLanguage}
+            onValueChange={(e) => i18n.changeLanguage(e)}
+          >
+            <SelectTrigger className="w-[133px]">
+              <div className="flex items-center">
+                <Globe className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Select year" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
               {languages.map((language) => (
-                <DropdownMenuItem
-                  key={language.code}
-                  onClick={() => {
-                    i18n.changeLanguage(currentLanguage === "pt" ? "en" : "pt");
-                  }}
-                  className="bg-accent text-accent-foreground"
-                >
+                <SelectItem key={language.code} value={language.code}>
                   {language.name}
-                </DropdownMenuItem>
+                </SelectItem>
               ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </SelectContent>
+          </Select>
 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>

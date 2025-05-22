@@ -101,6 +101,7 @@ function Filter({
           </Select>
 
           <div className="grid grid-cols-2 gap-2">
+            {/* All Months */}
             <Button
               variant="outline"
               className="w-full cursor-pointer"
@@ -108,6 +109,8 @@ function Filter({
             >
               {t("filter.button1")}
             </Button>
+
+            {/* All Years */}
             <Button
               variant="outline"
               className="w-full cursor-pointer"
@@ -125,10 +128,6 @@ function Filter({
                   <span>{t("filter.label2")}</span>
                   <span className="font-medium">{totalTransactions}</span>
                 </div>
-                {/* <div className="flex justify-between py-1 border-t">
-                  <span>Time Period</span>
-                  <span className="font-medium">Mar-Apr 2025</span>
-                </div> */}
               </div>
             </CardContent>
           </Card>
