@@ -10,4 +10,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    fsServe: {
+      root: __dirname,
+    },
+    watch: {
+      ignored: ["**/node_modules/**", "**/.git/**"],
+      usePolling: true,
+    },
+  }
 });
