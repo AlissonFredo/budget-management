@@ -31,18 +31,37 @@ function SetupPage() {
     }
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     setIsSubmitting(true);
 
     if (apiLink == "") return;
 
-    setTimeout(() => {
-      localStorage.setItem("sheet2apiLink", apiLink);
+    let url = apiLink;
 
-      navigate("/dashboard");
-    }, 1500);
+    if (url.endsWith("/")) url = url.slice(0, -1);
+
+    const query = new URLSearchParams({
+      limit: 999,
+      query_type: "and",
+    });
+
+    const response = await fetch(`${url}/page1?${query}`);
+
+    if (response.status == 200) {
+      localStorage.setItem("sheet2apiLink", url);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } else {
+      alert(
+        "Falha na conexão com a API externa. Certifique-se de que seguiu todos os passos corretamente."
+      );
+
+      setIsSubmitting(false);
+    }
   };
 
   return (

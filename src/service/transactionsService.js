@@ -13,16 +13,31 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 
     query = new URLSearchParams(query);
 
-    const response = await fetch(`${URL}page1?${query}`);
-    const data = await response.json();
+    console.log("inicio da requisição");
+    const response = await fetch(`${URL}/page1?${query}`);
+    console.log("fim da requisição", response);
 
-    if (Array.isArray(data)) {
+    if (response.status == 400) {
+      console.log("solicitação inválida");
+    } else if (response.status == 402) {
+      console.log(
+        "Pagamento necessário, atualize seu plano de conta para continuar"
+      );
+    } else if (response.status == 404) {
+      console.log("não encontrado");
+    } else if (response.status == 429) {
+      console.log(
+        "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
+      );
+    } else if (response.status == 200) {
+      const data = await response.json();
+
       return data;
     }
 
     return [];
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error Transactions Search:", error);
   }
 }
 
@@ -36,7 +51,7 @@ export async function transactionSubmit(values) {
     if (values.year == "") return;
     if (values.type == "") return;
 
-    const response = await fetch(`${URL}page1`, {
+    const response = await fetch(`${URL}/page1`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,14 +68,26 @@ export async function transactionSubmit(values) {
       }),
     });
 
-    const data = await response.json();
+    if (response.status == 400) {
+      console.log("solicitação inválida");
+    } else if (response.status == 402) {
+      console.log(
+        "Pagamento necessário, atualize seu plano de conta para continuar"
+      );
+    } else if (response.status == 404) {
+      console.log("não encontrado");
+    } else if (response.status == 429) {
+      console.log(
+        "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
+      );
+    } else if (response.status == 201) {
+      const data = await response.json();
 
-    if (data != 500) {
       return data;
     }
 
     return false;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error Transaction Submit:", error);
   }
 }
