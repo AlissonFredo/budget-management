@@ -47,7 +47,7 @@
         "setup_title4": "Connect in sheet2api",
         "setup_title5": "Copy Your API Link",
         "setup_title6": "Final Step: Enter Your API Link",
-        "setup_description1": "Create a new Google Sheet and name it 'Budget Management' or any name you prefer.",
+        "setup_description1": "Create a new Google Sheet and name it 'Budget Management'.",
         "setup_description2": "Sign up for a free account on sheet2api. This service will help us connect to your Google Sheet securely.",
         "setup_description3": "Share your Google Sheet with the email address provided by sheet2api during setup.",
         "setup_description4": "In sheet2api, create a new API and paste your Google Sheet sharing link.",
@@ -61,7 +61,14 @@
         "setup_subtitle2": "Your API link should look something like:",
         "setup_subtitle_description1": "Create a sheet named 'Budget Management' with columns: key, description, category, amount, day, month, year, type",
         "setup_subtitle_description2": "In your Google Sheet, click the 'Share' button in the top right corner, then add the sheet2api email address (google@sheet2api.com) and give it 'Editor' access.",
-        "setup_subtitle_description3": "Follow the sheet2api wizard to connect your Google Sheet. Make sure to select all the sheets you want to access through the API."
+        "setup_subtitle_description3": "Follow the sheet2api wizard to connect your Google Sheet. Make sure to select all the sheets you want to access through the API.",
+        "setup_title7": "Configure API options in Sheet2api",
+        "setup_description7": "In the Sheet2api dashboard, go to the API settings.",
+        "setup_subtitle_description4": "In the API settings, adjust the cache options and define the operations that will be used in the system.",
+        "setup_title8": "Disable cache and enable operations in settings",
+        "setup_description8": "In Sheet2api settings, disable cache and enable required operations.",
+        "setup_subtitle_description5": "Disabling the cache ensures that the system always displays the most recent information available in the spreadsheet.",
+        "setup_subtitle_description6": "Enabling read, update, create, and delete operations ensures full system functionality."
     },
     "navbar": {
         "home": "Home",

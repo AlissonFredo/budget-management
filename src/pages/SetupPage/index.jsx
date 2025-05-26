@@ -9,12 +9,15 @@ import {
   ExternalLink,
   FileSpreadsheet,
   Link2,
+  Settings,
   Share2,
   User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import Image1 from "../../assets/image1.png";
 import Image2 from "../../assets/image2.png";
+import Image3 from "../../assets/image3.png";
+import Image4 from "../../assets/image4.png";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -31,18 +34,37 @@ function SetupPage() {
     }
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     setIsSubmitting(true);
 
     if (apiLink == "") return;
 
-    setTimeout(() => {
-      localStorage.setItem("sheet2apiLink", apiLink);
+    let url = apiLink;
 
-      navigate("/dashboard");
-    }, 1500);
+    if (url.endsWith("/")) url = url.slice(0, -1);
+
+    const query = new URLSearchParams({
+      limit: 999,
+      query_type: "and",
+    });
+
+    const response = await fetch(`${url}/page1?${query}`);
+
+    if (response.status == 200) {
+      localStorage.setItem("sheet2apiLink", url);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } else {
+      alert(
+        "Falha na conexão com a API externa. Certifique-se de que seguiu todos os passos corretamente."
+      );
+
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -163,6 +185,49 @@ function SetupPage() {
                 <p className="text-xs bg-background p-2 rounded">
                   https://sheet2api.com/v1/ FgXSaM7ZJQgM/ budget-management
                 </p>
+              </div>
+            </StepCard>
+
+            <StepCard
+              number={6}
+              title={t("setuppage.setup_title7")}
+              icon={<Settings className="h-10 w-10 text-emerald-600" />}
+            >
+              <p className="mb-4">{t("setuppage.setup_description7")}</p>
+              <div className="bg-muted p-4 rounded-md mb-4">
+                <p className="text-sm font-medium mb-2">
+                  {t("setuppage.setup_subtitle_description4")}
+                </p>
+              </div>
+              <div className="rounded-md overflow-hidden border border-border">
+                <img
+                  src={Image3}
+                  alt="sheet2api configuration screenshot"
+                  className="w-full"
+                />
+              </div>
+            </StepCard>
+
+            <StepCard
+              number={7}
+              title={t("setuppage.setup_title8")}
+              icon={<Settings className="h-10 w-10 text-emerald-600" />}
+            >
+              <p className="mb-4">{t("setuppage.setup_description8")}</p>
+              <div className="bg-muted p-4 rounded-md">
+                <p className="text-sm font-medium mb-2">
+                  {t("setuppage.setup_subtitle_description5")}
+                </p>
+                <p className="text-sm font-medium mb-2">
+                  {t("setuppage.setup_subtitle_description6")}
+                </p>
+              </div>
+              <div className="rounded-md overflow-hidden border border-border">
+                <img
+                  src={Image4}
+                  alt="sheet2api configuration screenshot"
+                  className="w-full"
+                />
               </div>
             </StepCard>
           </div>
