@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Calendar, CalendarIcon } from "lucide-react";
+import NotFaund from "../NotFaund";
 
 function ExpensesTable() {
   const { t } = useTranslation();
@@ -182,7 +183,10 @@ function ExpensesTable() {
         {isLoading ? (
           <Loading />
         ) : summary.length == 0 ? (
-          <TransactionsNotFaund />
+          <NotFaund
+            title={t("list.notfound_label")}
+            description={t("notfound_description2")}
+          />
         ) : (
           <Table>
             <TableHeader>
@@ -224,20 +228,6 @@ function ExpensesTable() {
         )}
       </CardContent>
     </Card>
-  );
-}
-
-function TransactionsNotFaund() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="flex flex-col items-center justify-center py-12 px-4">
-      <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-      <h3 className="text-lg font-medium">{t("list.notfound_label")}</h3>
-      <p className="text-sm text-muted-foreground text-center mt-1">
-        {t("notfound_description2")}
-      </p>
-    </div>
   );
 }
 

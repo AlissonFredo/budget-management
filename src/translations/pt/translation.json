@@ -123,7 +123,7 @@
     },
     "filter": {
         "title": "Filtro",
-        "description": "Ver transações por mês",
+        "description": "Ver transações por periodo",
         "button1": "Todos os tempos",
         "button2": "Este mês",
         "label1": "Estatísticas rápidas",

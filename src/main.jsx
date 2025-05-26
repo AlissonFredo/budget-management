@@ -7,6 +7,7 @@ import SetupPage from "./pages/SetupPage";
 import Navbar from "./components/Navbar";
 import i18n from "./lib/i18n";
 import { I18nextProvider } from "react-i18next";
+import Footer from "./components/Footer";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -20,6 +21,8 @@ createRoot(document.getElementById("root")).render(
             <Route path="/setup" element={<SetupPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
+
+          <Footer />
         </BrowserRouter>
       </section>
     </I18nextProvider>

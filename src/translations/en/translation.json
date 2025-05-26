@@ -123,7 +123,7 @@
     },
     "filter": {
         "title": "Filter",
-        "description": "View transactions by month",
+        "description": "View transactions by period",
         "button1": "All Time",
         "button2": "This Month",
         "label1": "Quick Stats",
