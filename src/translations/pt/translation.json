@@ -47,7 +47,7 @@
         "setup_title4": "Conectar no sheet2api",
         "setup_title5": "Copie seu link de API",
         "setup_title6": "Etapa final: insira seu link de API",
-        "setup_description1": "Crie uma nova Planilha Google e dê a ela o nome 'Budget Management' ou qualquer nome que preferir.",
+        "setup_description1": "Crie uma nova Planilha Google e dê a ela o nome 'Budget Management'.",
         "setup_description2": "Crie uma conta gratuita no sheet2api. Este serviço nos ajudará a conectar sua Planilha Google com segurança.",
         "setup_description3": "Compartilhe sua Planilha Google com o endereço de e-mail fornecido pelo sheet2api durante a configuração.",
         "setup_description4": "No sheet2api, crie uma nova API e cole o link de compartilhamento do Planilhas Google.",
@@ -61,7 +61,14 @@
         "setup_subtitle2": "O link da sua API deve ser parecido com:",
         "setup_subtitle_description1": "Crie uma planilha chamada 'Budget Management' com colunas:  key, description, category, amount, day, month, year, type",
         "setup_subtitle_description2": "Na sua Planilha Google, clique no botão 'Compartilhar' no canto superior direito, adicione o endereço de e-mail sheet2api (google@sheet2api.com) e conceda a ele acesso de 'Editor'.",
-        "setup_subtitle_description3": "Siga o assistente sheet2api para conectar sua Planilha Google. Certifique-se de selecionar todas as planilhas que deseja acessar pela API."
+        "setup_subtitle_description3": "Siga o assistente sheet2api para conectar sua Planilha Google. Certifique-se de selecionar todas as planilhas que deseja acessar pela API.",
+        "setup_title7": "Configurar as opções da API no Sheet2api",
+        "setup_description7": "No painel do Sheet2api, acesse as configurações da API.",
+        "setup_subtitle_description4": "Nas configurações da API, ajuste as opções de cache e defina as operações que serão utilizadas no sistema.",
+        "setup_title8": "Desativar o cache e ativar operações nas configurações",
+        "setup_description8": "Nas configurações do Sheet2api, desative o cache e ative as operações necessárias.",
+        "setup_subtitle_description5": "Desativar o cache garante que o sistema exiba sempre as informações mais recentes disponíveis na planilha.",
+        "setup_subtitle_description6": "Ativar as operações de leitura, atualização, criação e exclusão assegura o funcionamento completo do sistema."
     },
     "navbar": {
         "home": "Página Inicial",
