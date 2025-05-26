@@ -24,7 +24,6 @@ import { useTranslation } from "react-i18next";
 function Dashboard() {
   const navigate = useNavigate();
   const sheet2apiLink = localStorage.getItem("sheet2apiLink");
-  if (sheet2apiLink == null) navigate("/setup");
 
   const { t } = useTranslation();
 
@@ -34,7 +33,11 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getTransactions();
+    if (sheet2apiLink == null) {
+      navigate("/setup");
+    } else {
+      getTransactions();
+    }
   }, [selectedMonth, selectedYears]);
 
   const getTransactions = async () => {

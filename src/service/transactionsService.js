@@ -1,7 +1,9 @@
-const URL = localStorage.getItem("sheet2apiLink");
-
 export async function transactionsSearch(month = "", year = "", type = "") {
   try {
+    const URL = localStorage.getItem("sheet2apiLink");
+
+    if (URL == null) return [];
+
     let query = {
       limit: 999,
       query_type: "and",
@@ -13,20 +15,16 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 
     query = new URLSearchParams(query);
 
-    console.log("inicio da requisição");
     const response = await fetch(`${URL}/page1?${query}`);
-    console.log("fim da requisição", response);
 
     if (response.status == 400) {
-      console.log("solicitação inválida");
+      alert("solicitação inválida");
     } else if (response.status == 402) {
-      console.log(
-        "Pagamento necessário, atualize seu plano de conta para continuar"
-      );
+      alert("Pagamento necessário, atualize seu plano de conta para continuar");
     } else if (response.status == 404) {
-      console.log("não encontrado");
+      alert("não encontrado");
     } else if (response.status == 429) {
-      console.log(
+      alert(
         "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
       );
     } else if (response.status == 200) {
@@ -43,6 +41,10 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 
 export async function transactionSubmit(values) {
   try {
+    const URL = localStorage.getItem("sheet2apiLink");
+
+    if (URL == null) return [];
+
     if (values.key == "") return;
     if (values.description == "") return;
     if (values.category == "") return;
@@ -69,15 +71,13 @@ export async function transactionSubmit(values) {
     });
 
     if (response.status == 400) {
-      console.log("solicitação inválida");
+      alert("solicitação inválida");
     } else if (response.status == 402) {
-      console.log(
-        "Pagamento necessário, atualize seu plano de conta para continuar"
-      );
+      alert("Pagamento necessário, atualize seu plano de conta para continuar");
     } else if (response.status == 404) {
-      console.log("não encontrado");
+      alert("não encontrado");
     } else if (response.status == 429) {
-      console.log(
+      alert(
         "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
       );
     } else if (response.status == 201) {
