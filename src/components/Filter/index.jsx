@@ -101,20 +101,24 @@ function Filter({
           </Select>
 
           <div className="grid grid-cols-2 gap-2">
-            {/* All Months */}
             <Button
               variant="outline"
               className="w-full cursor-pointer"
-              onClick={() => onSelectMonth("all")}
+              onClick={() => {
+                onSelectMonth("all");
+                onSelectedYears("all");
+              }}
             >
               {t("filter.button1")}
             </Button>
 
-            {/* All Years */}
             <Button
               variant="outline"
               className="w-full cursor-pointer"
-              onClick={() => onSelectMonth(currentMonth)}
+              onClick={() => {
+                onSelectMonth(currentMonth);
+                onSelectedYears(currentYear);
+              }}
             >
               {t("filter.button2")}
             </Button>
