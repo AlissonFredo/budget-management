@@ -21,16 +21,24 @@ import {
 } from "../ui/pagination";
 import Loading from "../Loading";
 import { useTranslation } from "react-i18next";
+import NotFaund from "../NotFaund";
 
 function ListTransactions({
   transactions,
   handleRemoveTransaction,
   isLoading,
 }) {
+  const { t } = useTranslation();
+
   if (isLoading) {
     return <Loading />;
   } else if (transactions.length === 0) {
-    return <TransactionsNotFaund />;
+    return (
+      <NotFaund
+        title={t("list.notfound_label")}
+        description={t("list.notfound_description")}
+      />
+    );
   } else {
     return (
       <TableTransaction
@@ -246,20 +254,6 @@ function TableTransaction({ transactions, handleRemoveTransaction }) {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </div>
-  );
-}
-
-function TransactionsNotFaund() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="flex flex-col items-center justify-center py-12 px-4">
-      <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-      <h3 className="text-lg font-medium">{t("list.notfound_label")}</h3>
-      <p className="text-sm text-muted-foreground text-center mt-1">
-        {t("list.notfound_description")}
-      </p>
     </div>
   );
 }
