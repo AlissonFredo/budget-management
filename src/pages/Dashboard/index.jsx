@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ModalAddTransaction from "../../components/ModalAddTransaction";
 import ListTransactions from "../../components/ListTransactions";
 import Filter from "../../components/Filter";
-import Container from "@/components/Container";
 import SummaryCards from "@/components/SummaryCards";
 import CardBarChart from "@/components/CardBarChart";
 import {
@@ -60,7 +59,7 @@ function Dashboard() {
     .reduce((sum, transaction) => sum + transaction.amount, 0);
 
   return (
-    <Container>
+    <main className="container mx-auto py-8 px-4 md:px-6">
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight mb-2">
           {t("dashboard.title")}
@@ -120,7 +119,7 @@ function Dashboard() {
 
         <ExpensesTable />
       </section>
-    </Container>
+    </main>
   );
 }
 
