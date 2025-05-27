@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalAddTransaction from "../../components/ModalAddTransaction";
 import ListTransactions from "../../components/ListTransactions";
 import Filter from "../../components/Filter";
-import Container from "@/components/Container";
-import Header from "@/components/Header";
 import SummaryCards from "@/components/SummaryCards";
 import CardBarChart from "@/components/CardBarChart";
 import {
@@ -62,8 +59,16 @@ function Dashboard() {
     .reduce((sum, transaction) => sum + transaction.amount, 0);
 
   return (
-    <Container>
-      <Header />
+    <main className="container mx-auto py-8 px-4 md:px-6">
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold tracking-tight mb-2">
+          {t("dashboard.title")}
+        </h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          {t("dashboard.subtitle")}
+        </p>
+      </header>
+
       <SummaryCards incoming={incoming} outgoing={outgoing} />
 
       <section className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -114,7 +119,7 @@ function Dashboard() {
 
         <ExpensesTable />
       </section>
-    </Container>
+    </main>
   );
 }
 
