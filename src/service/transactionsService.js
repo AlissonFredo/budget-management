@@ -1,5 +1,9 @@
+// import { useTranslation } from "react-i18next";
+
 export async function transactionsSearch(month = "", year = "", type = "") {
   try {
+    // const { t } = useTranslation();
+
     const URL = localStorage.getItem("sheet2apiLink");
 
     if (URL == null) return [];
@@ -17,23 +21,7 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 
     const response = await fetch(`${URL}/page1?${query}`);
 
-    if (response.status == 400) {
-      alert("solicitação inválida");
-    } else if (response.status == 402) {
-      alert("Pagamento necessário, atualize seu plano de conta para continuar");
-    } else if (response.status == 404) {
-      alert("não encontrado");
-    } else if (response.status == 429) {
-      alert(
-        "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
-      );
-    } else if (response.status == 200) {
-      const data = await response.json();
-
-      return data;
-    }
-
-    return [];
+    return response;
   } catch (error) {
     console.error("Error Transactions Search:", error);
   }

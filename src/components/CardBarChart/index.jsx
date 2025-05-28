@@ -63,11 +63,23 @@ function CardBarChart() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const result = await transactionsSearch("", selectedYears);
+    const response = await transactionsSearch("", selectedYears);
+
+    if (response.status == 400) {
+      alert(t("alert1"));
+    } else if (response.status == 402) {
+      alert(t("alert2"));
+    } else if (response.status == 404) {
+      alert(t("alert3"));
+    } else if (response.status == 429) {
+      alert(t("alert4"));
+    } else if (response.status == 200) {
+      const data = await response.json();
+
+      agregateTransactions(data);
+    }
 
     setIsLoading(false);
-
-    agregateTransactions(result);
   };
 
   const agregateTransactions = (values) => {

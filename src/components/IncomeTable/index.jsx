@@ -85,13 +85,21 @@ function IncomeTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const transactions = await transactionsSearch(
-      "",
-      selectedYears,
-      "incoming"
-    );
+    const response = await transactionsSearch("", selectedYears, "incoming");
 
-    formatTransactionsToSummary(transactions);
+    if (response.status == 400) {
+      alert(t("alert1"));
+    } else if (response.status == 402) {
+      alert(t("alert2"));
+    } else if (response.status == 404) {
+      alert(t("alert3"));
+    } else if (response.status == 429) {
+      alert(t("alert4"));
+    } else if (response.status == 200) {
+      const transactions = await response.json();
+
+      formatTransactionsToSummary(transactions);
+    }
 
     setIsLoading(false);
   };

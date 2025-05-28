@@ -43,9 +43,21 @@ function Dashboard() {
     const month = selectedMonth != "all" ? selectedMonth : "";
     const year = selectedYears != "all" ? selectedYears : "";
 
-    const result = await transactionsSearch(month, year);
+    const response = await transactionsSearch(month, year);
 
-    setTransactions(result);
+    if (response.status == 400) {
+      alert(t("alert1"));
+    } else if (response.status == 402) {
+      alert(t("alert2"));
+    } else if (response.status == 404) {
+      alert(t("alert3"));
+    } else if (response.status == 429) {
+      alert(t("alert4"));
+    } else if (response.status == 200) {
+      const data = await response.json();
+
+      setTransactions(data);
+    }
 
     setIsLoading(false);
   };
