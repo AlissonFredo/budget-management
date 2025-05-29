@@ -89,11 +89,15 @@ function ExpensesTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const transactions = await transactionsSearch(
+    const { transactions, error } = await transactionsSearch(
       "",
       selectedYears,
       "outgoing"
     );
+
+    if (error) {
+      alert(t(error));
+    }
 
     formatTransactionsToSummary(transactions);
 

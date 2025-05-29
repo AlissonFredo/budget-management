@@ -167,5 +167,10 @@
     "subtitle_table_incomes": "Income summary for the year, organized by category",
     "subtitle_table_expenses": "Expenses summary for the year, organized by category",
     "average": "Average",
-    "notfound_description2": "Try selecting a different year."
+    "notfound_description2": "Try selecting a different year.",
+    "alert1": "Invalid request",
+    "alert2": "Payment required, please upgrade your account plan to continue",
+    "alert3": "Not found",
+    "alert4": "Over the monthly API request limit, please upgrade your account plan to continue",
+    "alert5": "Failed to connect to external API. Make sure you followed all the steps correctly."
 }

@@ -43,9 +43,13 @@ function Dashboard() {
     const month = selectedMonth != "all" ? selectedMonth : "";
     const year = selectedYears != "all" ? selectedYears : "";
 
-    const result = await transactionsSearch(month, year);
+    const { transactions, error } = await transactionsSearch(month, year);
 
-    setTransactions(result);
+    if (error) {
+      alert(t(error));
+    }
+
+    setTransactions(transactions);
 
     setIsLoading(false);
   };

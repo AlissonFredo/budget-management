@@ -59,9 +59,7 @@ function SetupPage() {
         navigate("/dashboard");
       }, 1000);
     } else {
-      alert(
-        "Falha na conexão com a API externa. Certifique-se de que seguiu todos os passos corretamente."
-      );
+      alert(t("alert5"));
 
       setIsSubmitting(false);
     }

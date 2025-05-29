@@ -88,7 +88,7 @@ function ModalAddTransaction({ handleNewTransaction }) {
     const date = new Date(year, month - 1, day);
     month = date.toLocaleString("en-US", { month: "long" }).toLowerCase();
 
-    const value = await transactionSubmit({
+    const { data, error } = await transactionSubmit({
       key: uuidv4(),
       description: transaction.description,
       category: transaction.category,
@@ -99,8 +99,12 @@ function ModalAddTransaction({ handleNewTransaction }) {
       type: transaction.type,
     });
 
-    if (value) {
-      handleNewTransaction(value);
+    if (error) {
+      alert(t(error));
+    }
+
+    if (data) {
+      handleNewTransaction(data);
     }
 
     setIsLoading(false);

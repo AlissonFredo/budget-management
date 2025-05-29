@@ -85,11 +85,15 @@ function IncomeTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const transactions = await transactionsSearch(
+    const { transactions, error } = await transactionsSearch(
       "",
       selectedYears,
       "incoming"
     );
+
+    if (error) {
+      alert(t(error));
+    }
 
     formatTransactionsToSummary(transactions);
 

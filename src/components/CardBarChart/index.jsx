@@ -63,11 +63,15 @@ function CardBarChart() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const result = await transactionsSearch("", selectedYears);
+    const { transactions, error } = await transactionsSearch("", selectedYears);
+
+    if (error) {
+      alert(t(error));
+    }
+
+    agregateTransactions(transactions);
 
     setIsLoading(false);
-
-    agregateTransactions(result);
   };
 
   const agregateTransactions = (values) => {
