@@ -44,8 +44,9 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 export async function transactionSubmit(values) {
   try {
     const URL = localStorage.getItem("sheet2apiLink");
+    let error = null;
 
-    if (URL == null) return [];
+    if (URL == null) return { transaction: {}, error: error };
 
     if (values.key == "") return;
     if (values.description == "") return;
@@ -73,22 +74,20 @@ export async function transactionSubmit(values) {
     });
 
     if (response.status == 400) {
-      alert("solicitação inválida");
+      error = "alert1";
     } else if (response.status == 402) {
-      alert("Pagamento necessário, atualize seu plano de conta para continuar");
+      error = "alert2";
     } else if (response.status == 404) {
-      alert("não encontrado");
+      error = "alert3";
     } else if (response.status == 429) {
-      alert(
-        "Acima do limite mensal de solicitações de API, atualize seu plano de conta para continuar"
-      );
+      error = "alert4";
     } else if (response.status == 201) {
       const data = await response.json();
 
-      return data;
+      return { data: data, error: error };
     }
 
-    return false;
+    return { transaction: {}, error: error };
   } catch (error) {
     console.error("Error Transaction Submit:", error);
   }
