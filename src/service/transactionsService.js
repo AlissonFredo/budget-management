@@ -2,8 +2,6 @@
 
 export async function transactionsSearch(month = "", year = "", type = "") {
   try {
-    // const { t } = useTranslation();
-
     const URL = localStorage.getItem("sheet2apiLink");
 
     if (URL == null) return [];
@@ -19,9 +17,25 @@ export async function transactionsSearch(month = "", year = "", type = "") {
 
     query = new URLSearchParams(query);
 
+    let error = null;
+
     const response = await fetch(`${URL}/page1?${query}`);
 
-    return response;
+    if (response.status == 400) {
+      error = "alert1";
+    } else if (response.status == 402) {
+      error = "alert2";
+    } else if (response.status == 404) {
+      error = "alert3";
+    } else if (response.status == 429) {
+      error = "alert4";
+    } else if (response.status == 200) {
+      const transactions = await response.json();
+
+      return { transactions: transactions, error: error };
+    }
+
+    return { transactions: [], error: error };
   } catch (error) {
     console.error("Error Transactions Search:", error);
   }

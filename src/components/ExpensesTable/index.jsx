@@ -89,21 +89,17 @@ function ExpensesTable() {
   const fetchTransactions = async () => {
     setIsLoading(true);
 
-    const response = await transactionsSearch("", selectedYears, "outgoing");
+    const { transactions, error } = await transactionsSearch(
+      "",
+      selectedYears,
+      "outgoing"
+    );
 
-    if (response.status == 400) {
-      alert(t("alert1"));
-    } else if (response.status == 402) {
-      alert(t("alert2"));
-    } else if (response.status == 404) {
-      alert(t("alert3"));
-    } else if (response.status == 429) {
-      alert(t("alert4"));
-    } else if (response.status == 200) {
-      const data = await response.json();
-
-      formatTransactionsToSummary(data);
+    if (error) {
+      alert(t(error));
     }
+
+    formatTransactionsToSummary(transactions);
 
     setIsLoading(false);
   };
